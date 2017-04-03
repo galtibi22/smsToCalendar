@@ -21,6 +21,8 @@ import tbject.com.smstocalendar.activities.AlertDialog;
 import tbject.com.smstocalendar.pojo.SettingsProp;
 import tbject.com.smstocalendar.pojo.SmsEvent;
 
+//import tbject.com.smstocalendar.activities.AlertDialog;
+
 public class IncomingSmsService extends BroadcastReceiver {
     private final int NOTIFICATION_ID=281988;
     final SmsManager sms = SmsManager.getDefault();
@@ -79,7 +81,7 @@ public class IncomingSmsService extends BroadcastReceiver {
         Intent contentIntent = new Intent(context,AlertDialog.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         nBuilder.setContentIntent(pendingIntent);
-        //nBuilder.setDefaults(Notification.DEFAULT_SOUND);
+        nBuilder.setDefaults(Notification.DEFAULT_SOUND);
         nBuilder.setAutoCancel(true);
         nBuilder.setPriority(Notification.PRIORITY_DEFAULT);
         NotificationManager mNotificationManager =
