@@ -94,7 +94,7 @@ public class Menu extends TabActivity implements OnTabChangeListener {
      */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
-                .setName("Menu Page") 
+                .setName("Menu Page")
                 .setUrl(Uri.parse("http://[ENTER-YOUR-URL-HERE]"))
                 .build();
         return new Action.Builder(Action.TYPE_VIEW)
