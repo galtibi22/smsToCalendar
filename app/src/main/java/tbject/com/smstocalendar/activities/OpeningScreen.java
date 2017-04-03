@@ -28,6 +28,8 @@ public class OpeningScreen extends CommonActivity {
 
     }
 
+
+
     public static OpeningScreen getInstance() {
         return instance;
     }

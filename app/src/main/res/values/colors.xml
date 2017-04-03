@@ -2,5 +2,8 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#000000</color>
+    <color name="colorAccent">#bb132d68</color>
+    <color name="mainBackground">#d4e3fc</color>
+    <color name="notification_bg">#3F51B5</color>
+    <color name="notification_pressed_bg">#000000</color>
 </resources>

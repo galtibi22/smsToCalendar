@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="smsEventServiceLanguage">smsEventServiceLanguage</string>
+    <string name="appLanguage">appLanguage</string>
+    <string name="reminderMethod">reminderMethod</string>
+    <string name="minutesEventReminder">minutesEventReminder</string>
+    <string name="allowReminder">allowReminder</string>
+    <string name="SmsEventService">SmsEventService</string>
+</resources>

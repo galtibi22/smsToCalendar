@@ -2,6 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="tbject.com.smstocalendar">
 
+    <uses-sdk android:minSdkVersion="24" />
+
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,8 +26,22 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.Menu" />
-        <activity android:name=".activities.SettingTab" />
-        <activity android:name=".activities.HistoryTab"></activity>
+        <activity android:name=".activities.HistoryTab" />
+        <activity
+            android:name=".activities.AlertDialog"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <receiver android:name=".services.IncomingSmsService">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".activities.SettingTab"></activity>
     </application>
 
 </manifest>

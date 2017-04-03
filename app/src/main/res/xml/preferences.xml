@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_general">
+        <SwitchPreference
+            android:title="@string/pref_SmsEventService_title"
+            android:defaultValue="true"
+            android:summary="@string/pref_SmsEventService_summary"
+            android:key="@string/SmsEventService">
+        </SwitchPreference>
+        <ListPreference
+            android:title="@string/pref_appLanguage_title"
+            android:summary="@string/pref_appLanguage_summary"
+            android:key="@string/appLanguage"
+            android:defaultValue="1"
+            android:entries="@array/languageEntriesList"
+            android:entryValues="@array/languageValuesList">
+        </ListPreference>
+        <MultiSelectListPreference
+            android:title="@string/pref_smsEventServiceLanguage_title"
+            android:dialogTitle="@string/pref_smsEventServiceLanguage_title"
+            android:summary="@string/pref_smsEventServiceLanguage_summary"
+            android:key="@string/smsEventServiceLanguage"
+            android:defaultValue="@array/defualtLanguageValuesList"
+            android:entries="@array/languageEntriesList"
+            android:entryValues="@array/languageValuesList">
+        </MultiSelectListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_reminder">
+        <SwitchPreference
+            android:title="@string/pref_allowReminder_title"
+            android:defaultValue="true"
+            android:summary="@string/pref_allowReminder_summary"
+            android:key="@string/allowReminder"></SwitchPreference>
+        <ListPreference
+            android:title="@string/pref_minutesEventReminder_title"
+            android:summary="@string/pref_minutesEventReminder_summary"
+            android:key="@string/minutesEventReminder"
+            android:defaultValue="15"
+            android:entries="@array/minutesEventReminderEntries"
+            android:entryValues="@array/minutesEventReminderValues">
+            </ListPreference>
+        <ListPreference
+            android:title="@string/pref_reminderMethod_title"
+            android:summary="@string/pref_reminderMethod_summary"
+            android:key="@string/reminderMethod"
+            android:defaultValue="1"
+            android:entries="@array/reminderMethodEntries"
+            android:entryValues="@array/reminderMethodValues">
+        </ListPreference>
+
+
+    </PreferenceCategory>
+</PreferenceScreen>

@@ -1,3 +1,26 @@
 <resources>
     <string name="app_name">SmsToCalendar</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_general">General</string>
+    <string name="pref_SmsEventService_title">SmsEvent Service</string>
+    <string name="pref_SmsEventService_summary">Enable or Disable the main service</string>
+    <string name="pref_appLanguage_title">App Language</string>
+    <string name="pref_appLanguage_summary">Select the app language</string>
+    <string name="pref_smsEventServiceLanguage_title">SmsEvent Service Language</string>
+    <string name="pref_smsEventServiceLanguage_summary">Select the support languages for the SmsEvent service</string>
+    <string name="pref_reminder">Reminder Settings</string>
+    <string name="pref_allowReminder_title">Allow Reminder</string>
+    <string name="pref_allowReminder_summary">Do you want to set an event reminder?</string>
+    <string name="pref_minutesEventReminder_title">Schedule a reminder</string>
+    <string name="pref_minutesEventReminder_summary">Select the number of minutes for an event reminder</string>
+    <string name="pref_reminderMethod_title">Reminder Method</string>
+    <string name="pref_reminderMethod_summary">Select the methods to receive the reminder</string>
+
+
+    <string name="alertDailogTitle">   האם ליצור אירוע חדש?</string>
 </resources>
+

@@ -1,0 +1,57 @@
+<resources>
+    <string-array name="languageEntriesList">
+        <item>English</item>
+        <item>עברית</item>
+    </string-array>
+    <string-array name="languageValuesList">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+    <string-array name="defualtLanguageValuesList">
+        <item>2</item>
+    </string-array>
+
+
+    <string-array name="minutesEventReminderEntries">
+        <item>0 Minutes</item>
+        <item>1 Minutes</item>
+        <item>5 Minutes</item>
+        <item>10 Minutes</item>
+        <item>15 Minutes</item>
+        <item>20 Minutes</item>
+        <item>30 Minutes</item>
+        <item>45 Minutes</item>
+        <item>60 Minutes</item>
+        <item>2 Hours</item>
+        <item>4 Hours</item>
+        <item>8 Hours</item>
+        <item>12 Hours</item>
+        <item>24 Hours</item>
+    </string-array>
+    <string-array name="minutesEventReminderValues">
+        <item>0</item>
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+        <item>120</item>
+        <item>240</item>
+        <item>480</item>
+        <item>720</item>
+        <item>1440</item>
+    </string-array>
+    <string-array name="reminderMethodEntries">
+        <item>Alert</item>
+        <item>Email</item>
+    </string-array>
+    <string-array name="reminderMethodValues">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
+
+</resources>
