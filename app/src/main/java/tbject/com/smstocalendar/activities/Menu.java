@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.TabActivity;
 import android.content.Intent;
 import android.graphics.Point;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -65,13 +66,15 @@ public class Menu extends TabActivity implements OnTabChangeListener {
 
         // Create  Intents to launch an Activity for the tab (to be reused)
         intent = new Intent().setClass(this, SettingTab.class);
-        spec = tabHost.newTabSpec("First").setIndicator("Setting")
+        Drawable drawable=getResources().getDrawable(R.drawable.settings_icon);
+        spec = tabHost.newTabSpec("First").setIndicator(getString(R.string.setting),drawable)
                 .setContent(intent);
         //Add intent to tab
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, HistoryTab.class);
-        spec = tabHost.newTabSpec("Second").setIndicator("History")
+        drawable=getResources().getDrawable(R.drawable.history_icon);
+        spec = tabHost.newTabSpec("Second").setIndicator(getString(R.string.history),drawable)
                 .setContent(intent);
         tabHost.addTab(spec);
 
@@ -88,10 +91,6 @@ public class Menu extends TabActivity implements OnTabChangeListener {
         return instance;
     }
 
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
     public Action getIndexApiAction() {
         Thing object = new Thing.Builder()
                 .setName("Menu Page")
@@ -106,9 +105,6 @@ public class Menu extends TabActivity implements OnTabChangeListener {
     @Override
     public void onStart() {
         super.onStart();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         client.connect();
         AppIndex.AppIndexApi.start(client, getIndexApiAction());
     }
@@ -116,9 +112,6 @@ public class Menu extends TabActivity implements OnTabChangeListener {
     @Override
     public void onStop() {
         super.onStop();
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
     }

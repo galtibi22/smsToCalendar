@@ -6,4 +6,5 @@
     <color name="mainBackground">#d4e3fc</color>
     <color name="notification_bg">#3F51B5</color>
     <color name="notification_pressed_bg">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

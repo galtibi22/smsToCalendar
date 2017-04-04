@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">SmsToCalendar</string>
+    <string name="setting">הגדרות</string>
+    <string name="history">היסטוריה</string>
+    <string name="no">לא</string>
+    <string name="yes">כן</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <string name="pref_general">הגדרות</string>
+    <string name="pref_SmsEventService_title">שירות-smsEvent</string>
+    <string name="pref_SmsEventService_summary">האם להפעיל את השירות?</string>
+    <string name="pref_appLanguage_title">שפת האפליקציה</string>
+    <string name="pref_appLanguage_summary">בחר את שפת האפליקציה</string>
+    <string name="pref_smsEventServiceLanguage_title">שפות התמיכה בשירות</string>
+    <string name="pref_smsEventServiceLanguage_summary">בחר באלו שפות הינך מעוניין לקבל את השירות</string>
+    <string name="pref_reminder">הגדרות תזכורת</string>
+    <string name="pref_allowReminder_title">לאפשר תזכורת</string>
+    <string name="pref_allowReminder_summary">האם הינך מעוניין לקבל תזכורת לאירוע?</string>
+    <string name="pref_minutesEventReminder_title">תזמון התזכורת</string>
+    <string name="pref_minutesEventReminder_summary">בחר כמה זמן התזכורת תופעל לפני האירוע</string>
+    <string name="pref_reminderMethod_title">צורת התזכורת</string>
+    <string name="pref_reminderMethod_summary">בחר באיזה צורה הינך מעוניין לקבל את התזכורת</string>
+
+
+    <string name="alertDailogTitle">האם ליצור אירוע חדש?</string>
+
+
+
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="date">תאריך</string>
+    <string name="place">מקום</string>
+    <string name="description">Description</string>
+</resources>
+
