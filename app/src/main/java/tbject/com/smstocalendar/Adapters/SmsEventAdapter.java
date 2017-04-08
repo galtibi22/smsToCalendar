@@ -51,7 +51,6 @@ public class SmsEventAdapter extends RecyclerView.Adapter<SmsEventAdapter.SmsEve
         protected TextView placeValue;
         protected  TextView date;
         protected TextView dateValue;
-
         public SmsEventViewHolder(View v) {
             super(v);
             place=(TextView)v.findViewById(R.id.placeName);

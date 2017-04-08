@@ -6,7 +6,9 @@
     <string name="history">היסטוריה</string>
     <string name="no">לא</string>
     <string name="yes">כן</string>
-    <string name="title_activity_settings">Settings</string>
+    <string name="close">סגור</string>
+
+    <string name="title_activity_settings">הגדרות</string>
 
     <string name="pref_general">הגדרות</string>
     <string name="pref_SmsEventService_title">שירות-smsEvent</string>
@@ -22,16 +24,22 @@
     <string name="pref_minutesEventReminder_summary">בחר כמה זמן התזכורת תופעל לפני האירוע</string>
     <string name="pref_reminderMethod_title">צורת התזכורת</string>
     <string name="pref_reminderMethod_summary">בחר באיזה צורה הינך מעוניין לקבל את התזכורת</string>
+    <string name="pref_delete_history_summery">מחיקת היסטוריה של הודעות האירועים</string>
+    <string name="pref_delete_history_title">מחיקת היסוריה</string>
+    <string name="pref_are_you_sure_delete_history">האם האתה בטוח שהינך מעוניין למחוק את ההיסטוריה?</string>
 
+
+    <string name="history_successfully_deleted">היסטורית הודעות אירועים נמחקו בהצלחה</string>
+
+    <string name="toast_event_successfully">אירוע נוצר בהצלחה</string>
+    <string name="toast_event_unsuccessfully">אירוע לא נוצר.בדוק קובץ יומן</string>
+    <string name="toast_smsEvent_without_reminder">נוצר אירוע ללא תזכורת. אנא בדוק הגדרות אפליקציה</string>
 
     <string name="alertDailogTitle">האם ליצור אירוע חדש?</string>
 
     <string name="notification_title_1">יש לך</string>
     <string name="notification_title_2">הודעות אירוע חדשים</string>
 
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
 
     <string name="date">תאריך:</string>
     <string name="place">מקום:</string>
@@ -40,5 +48,11 @@
     <string name="alert_meet_subject">פגישה בנושא</string>
     <string name="alert_place">תתקיים ב</string>
     <string name="alert_date">בתאריך</string>
+
+    <string name="details_title">פרטי הודעת האירוע</string>
+    <string name="date_accepted">תאריך קבלה</string>
+    <string name="phone_number">מספר טלפון</string>
+    <string name="orig_message">תוכן ההודעה</string>
+
 </resources>
 

@@ -21,6 +21,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -35,7 +36,7 @@ import tbject.com.smstocalendar.R;
 import tbject.com.smstocalendar.pojo.SettingsProp;
 import tbject.com.smstocalendar.pojo.SmsEvent;
 
-public class AlertDialog extends Activity {
+public class NewSmsEventDailog extends Activity {
     SmsEvent currentSmsEvent;
     ArrayList<SmsEvent>historySmsEvents=new ArrayList<>();
     ArrayList<SmsEvent> smsEvents;
@@ -87,14 +88,22 @@ public class AlertDialog extends Activity {
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     private void buildAlertDialog() {
-
         Log.d("buildAlertDialog","method start");
-        String content=getString(R.string.alert_meet_subject)+" "+currentSmsEvent.getTitle()+" "+getString(R.string.alert_place)+currentSmsEvent.getPlace()+" "+getString(R.string.alert_date)+" "+dateFormat.format(currentSmsEvent.getDate());
+        GravityEnum gravityEnum;
+        String currentLan=this.getResources().getConfiguration().locale.getLanguage();
+        if (currentLan.equals(this.getString(R.string.hebrew)))
+            gravityEnum = GravityEnum.END;
+
+        else
+            gravityEnum=GravityEnum.START;
+        String content=getString(R.string.alert_meet_subject)+" "+currentSmsEvent.getTitle()+" "
+                +getString(R.string.alert_place)+currentSmsEvent.getPlace()
+                +" "+getString(R.string.alert_date)+" "+dateFormat.format(currentSmsEvent.getDate());
         builMaterialDialog=new MaterialDialog.Builder(this)
 
-                .title("("+smsEventCounter+"/"+totleSmsEvemts+")"+"  "+getString(R.string.alertDailogTitle))
-                .content(content)
-                .positiveText(R.string.yes)
+                .title("("+smsEventCounter+"/"+totleSmsEvemts+")"+"  "+getString(R.string.alertDailogTitle)).titleGravity(gravityEnum)
+                .content(content).contentGravity(gravityEnum)
+                .positiveText(R.string.yes).buttonsGravity(gravityEnum)
                 .negativeText(R.string.no)
                 .cancelable(false)
                 .backgroundColor(getColor(R.color.mainBackground))
@@ -161,13 +170,13 @@ public class AlertDialog extends Activity {
             Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
             setReminder(cr, Long.parseLong(uri.getLastPathSegment()));
             Log.d("addEvent",currentSmsEvent.toString()+" created successfully");
-            Toast.makeText(this, "SmsEvent created successfully ",
+            Toast.makeText(this, getString(R.string.toast_event_successfully),
                     Toast.LENGTH_SHORT).show();
-            historySmsEvents.add(currentSmsEvent);
+            historySmsEvents.add(0,currentSmsEvent);
         } catch (Exception e) {
             Log.e("addEvent", e.getMessage(), e);
             e.printStackTrace();
-            Toast.makeText(this, "SmsEvent not created. please check log file",
+            Toast.makeText(this, getString(R.string.toast_event_unsuccessfully),
                     Toast.LENGTH_LONG).show();
         }
     }
@@ -192,13 +201,11 @@ public class AlertDialog extends Activity {
 
 
             } else {
-                Toast.makeText(this, "Created new SmsEvent without Reminder.\nSee App settings.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_smsEvent_without_reminder), Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("setReminder", e.getMessage(), e);
-            Toast.makeText(this, "Reminder not created. please check log file",
-                    Toast.LENGTH_LONG).show();
         }
     }
 

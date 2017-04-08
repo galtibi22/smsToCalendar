@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import tbject.com.smstocalendar.R;
-import tbject.com.smstocalendar.activities.AlertDialog;
+import tbject.com.smstocalendar.activities.NewSmsEventDailog;
 import tbject.com.smstocalendar.activities.OpeningScreen;
 import tbject.com.smstocalendar.pojo.SettingsProp;
 import tbject.com.smstocalendar.pojo.SmsEvent;
@@ -73,8 +73,10 @@ public class IncomingSmsService extends BroadcastReceiver {
         smsEvent.setTitle( "תור לרופא שיניים ");
         smsEvent.setPlace("השקמה 55 פרדסיה");
         smsEvent.setDate(date);
+        smsEvent.setDescription(smsMessage.getDisplayMessageBody());
+        smsEvent.setAccepted(new Date());
+        smsEvent.setPhoneNumber(smsMessage.getDisplayOriginatingAddress().substring(1,4)+"-"+smsMessage.getDisplayOriginatingAddress().substring(4));
         Log.i("smsIsEventSms", "Success to parse sms to eventSms");
-        smsEvent.setDescription("desciption");
         return smsEvent;
     }
 
@@ -82,7 +84,7 @@ public class IncomingSmsService extends BroadcastReceiver {
         Notification.Builder nBuilder = new Notification.Builder(context)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(context.getString(R.string.notification_title_1)+" " +numOfSmsEvent +" "+context.getString(R.string.notification_title_2));
-        Intent contentIntent = new Intent(context,AlertDialog.class);
+        Intent contentIntent = new Intent(context,NewSmsEventDailog.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         nBuilder.setContentIntent(pendingIntent);
         nBuilder.setDefaults(Notification.DEFAULT_SOUND);

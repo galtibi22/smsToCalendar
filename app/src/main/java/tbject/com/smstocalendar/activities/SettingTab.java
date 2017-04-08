@@ -3,18 +3,30 @@ package tbject.com.smstocalendar.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.SwitchPreference;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.preference.PreferenceManager;
 import android.view.View;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import tbject.com.smstocalendar.R;
+import tbject.com.smstocalendar.pojo.SettingsProp;
+import tbject.com.smstocalendar.pojo.SmsEvent;
 
 public class SettingTab extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private boolean statusAllowReminder;
+    MaterialDialog deleteHistoryMaterialDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,6 +35,59 @@ public class SettingTab extends PreferenceActivity implements SharedPreferences.
         //getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
         statusAllowReminder=((SwitchPreference) findPreference(getString(R.string.allowReminder))).isEnabled();
+
+        Preference preference = (Preference) findPreference(getString(R.string.deleteHistory));
+        preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                deleteHistory();
+                return true;
+            }
+        });
+
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void deleteHistory() {
+        GravityEnum gravityEnum;
+        String currentLan=this.getResources().getConfiguration().locale.getLanguage();
+        if (currentLan.equals(this.getString(R.string.hebrew)))
+            gravityEnum = GravityEnum.END;
+
+        else
+            gravityEnum=GravityEnum.START;
+        deleteHistoryMaterialDialog=new MaterialDialog.Builder(this)
+                .title(getString(R.string.pref_are_you_sure_delete_history)).titleGravity(gravityEnum)
+                .positiveText(R.string.yes).buttonsGravity(gravityEnum)
+                .negativeText(R.string.no)
+                .cancelable(false)
+                .backgroundColor(getColor(R.color.mainBackground))
+                .contentColor(getColor(android.R.color.black))
+                .titleColor(getColor(android.R.color.black))
+                .positiveColor(getColor(android.R.color.darker_gray))
+                .negativeColor(getColor(android.R.color.darker_gray))
+                .buttonRippleColor(getColor(android.R.color.white))
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        SmsEvent.deleteSmsEventDataFromDisk(getApplicationContext(), SettingsProp.HISTORY_EVENT_DATA);
+                        Toast.makeText(getApplicationContext(),getString(R.string.history_successfully_deleted),
+                                Toast.LENGTH_SHORT).show();
+                        deleteHistoryMaterialDialog.dismiss();
+
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        deleteHistoryMaterialDialog.dismiss();
+                    }
+                }).show();
+
 
     }
 

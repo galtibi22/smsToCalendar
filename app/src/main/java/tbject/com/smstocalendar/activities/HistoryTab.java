@@ -1,26 +1,37 @@
 package tbject.com.smstocalendar.activities;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.GravityEnum;
+import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 import tbject.com.smstocalendar.Adapters.SmsEventAdapter;
 import tbject.com.smstocalendar.R;
-import tbject.com.smstocalendar.pojo.ContactInfo;
 import tbject.com.smstocalendar.pojo.SettingsProp;
 import tbject.com.smstocalendar.pojo.SmsEvent;
 
 public class HistoryTab extends Activity {
+    private RecyclerView recList;
+    private ArrayList<SmsEvent> smsEvents;
+    private SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy hh:mm");
+    private MaterialDialog materialDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_my);
         setContentView(R.layout.activity_history_tab);
         buildHistoryEvents();
 
@@ -28,16 +39,12 @@ public class HistoryTab extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.my, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if (id == R.id.action_settings) {
             return true;
@@ -47,31 +54,59 @@ public class HistoryTab extends Activity {
 
 
     private void buildHistoryEvents(){
-        RecyclerView recList = (RecyclerView) findViewById(R.id.cardList);
+        recList = (RecyclerView) findViewById(R.id.cardList);
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setOrientation(LinearLayoutManager.VERTICAL);
         SettingTab.setDirectionByLan(this,recList);
 
         recList.setLayoutManager(llm);
-        ArrayList<SmsEvent> smsEvents=SmsEvent.readDataFromDisk(this, SettingsProp.HISTORY_EVENT_DATA);
+        smsEvents=SmsEvent.readDataFromDisk(this, SettingsProp.HISTORY_EVENT_DATA);
         SmsEventAdapter ca = new SmsEventAdapter(smsEvents);
         recList.setAdapter(ca);
     }
-    private List<ContactInfo> createList(int size) {
-
-        List<ContactInfo> result = new ArrayList<ContactInfo>();
-        for (int i=1; i <= size; i++) {
-            ContactInfo ci = new ContactInfo();
-            ci.name = ContactInfo.NAME_PREFIX + i;
-            ci.surname = ContactInfo.SURNAME_PREFIX + i;
-            ci.email = ContactInfo.EMAIL_PREFIX + i + "@test.com";
-
-            result.add(ci);
-
-        }
-
-        return result;
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void initDetailsDailog(View view){
+        int index = recList.getChildLayoutPosition(view);
+        buildDetailsDialog(smsEvents.get(index));
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    private void buildDetailsDialog(SmsEvent smsEvent) {
+        Log.d("buildSmsEventDialog","method start");
+        GravityEnum gravityEnum;
+        String currentLan=this.getResources().getConfiguration().locale.getLanguage();
+        if (currentLan.equals(this.getString(R.string.hebrew)))
+            gravityEnum = GravityEnum.END;
+
+        else
+            gravityEnum=GravityEnum.START;
+        String content=getString(R.string.phone_number)+":"+smsEvent.getPhoneNumber()+"\n"
+                +getString(R.string.date_accepted)+":"+dateFormat.format(smsEvent.getAccepted())+"\n"
+                +getString(R.string.orig_message)+":"+"\n"
+                +smsEvent.getDescription();
+
+        materialDialog=new MaterialDialog.Builder(this)
+                .title(getString(R.string.details_title)).titleGravity(gravityEnum)
+                .content(content).contentGravity(gravityEnum)
+                .positiveText(R.string.close).buttonsGravity(gravityEnum)
+                .cancelable(false)
+                .backgroundColor(getColor(R.color.mainBackground))
+                .contentColor(getColor(android.R.color.black))
+                .titleColor(getColor(android.R.color.black))
+                .positiveColor(getColor(android.R.color.darker_gray))
+                .buttonRippleColor(getColor(android.R.color.white))
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        materialDialog.dismiss();
+
+                    }
+                }) .show();
+        Log.d("buildSmsEventDialog","method finish");
+
+    }
+
     @Override
     public void onResume(){
         super.onResume();

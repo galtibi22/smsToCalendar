@@ -13,6 +13,9 @@ public class SmsEvent  {
     private String description;
     private String place;
     private Date date;
+    private String phoneNumber;
+    private Date accepted;
+
 
 
 
@@ -36,6 +39,8 @@ public class SmsEvent  {
                     smsEvent.setDate(new Date(smsEventArray[1]));
                     smsEvent.setPlace(smsEventArray[2]);
                     smsEvent.setDescription(smsEventArray[3]);
+                    smsEvent.setPhoneNumber(smsEventArray[4]);
+                    smsEvent.setAccepted(new Date(smsEventArray[5]));
                     smsEvents.add(smsEvent);
                 }
              }
@@ -47,7 +52,8 @@ public class SmsEvent  {
         String smsEventsString="";
         Log.d("writeSmsEventsToDist","Write to disk with header:"+settingsProp.name()+smsEvents.toString());
         for (SmsEvent smsEvent:smsEvents){
-            smsEventsString+= smsEvent.getTitle()+";;"+smsEvent.getDate().toString()+";;"+smsEvent.getPlace()+";;"+smsEvent.getDescription()+"@@";
+            smsEventsString+= smsEvent.getTitle()+";;"+smsEvent.getDate().toString()+";;"+smsEvent.getPlace()+";;"+smsEvent.getDescription()+";;"+
+                    smsEvent.getPhoneNumber()+";;"+smsEvent.getAccepted().toString()+"@@";
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
@@ -67,9 +73,9 @@ public class SmsEvent  {
         Log.d("writeSmsEventsToHistory","method start");
         ArrayList<SmsEvent> historySmsevents=readDataFromDisk(context,SettingsProp.HISTORY_EVENT_DATA);
         Log.d("writeSmsEventsToHistory","Read from file:"+historySmsevents.toString());
-        historySmsevents.addAll(historySmsevents.size(),smsEvents);
+        smsEvents.addAll(smsEvents.size(),historySmsevents);
         Log.d("writeSmsEventsToHistory","Write to file:"+smsEvents.toString());
-        writeSmsEventsToDist(context,historySmsevents,SettingsProp.HISTORY_EVENT_DATA);
+        writeSmsEventsToDist(context,smsEvents,SettingsProp.HISTORY_EVENT_DATA);
     }
 
     public void setTitle(String title) {
@@ -108,13 +114,33 @@ public class SmsEvent  {
         this.date = date;
     }
 
+
+
+    public Date getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(Date accepted) {
+        this.accepted = accepted;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
         return "SmsEvent{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", place='" + place + '\'' +
-                ", date=" + date +
+                ", date=" + date + '\'' +
+                ", phoneNumber="+phoneNumber + '\'' +
+                ", accepted="+accepted +
                 '}';
     }
 }

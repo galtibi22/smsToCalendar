@@ -27,6 +27,11 @@
             android:entries="@array/languageEntriesList"
             android:entryValues="@array/languageValuesList">
         </MultiSelectListPreference>
+
+        <Preference android:title="@string/pref_delete_history_title"
+            android:summary="@string/pref_delete_history_summery"
+            android:key="@string/deleteHistory"
+           />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_reminder">

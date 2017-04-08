@@ -6,6 +6,8 @@
     <string name="history">History</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="close">Close</string>
+
     <string name="title_activity_settings">Settings</string>
 
     <string name="pref_general">General</string>
@@ -22,16 +24,18 @@
     <string name="pref_minutesEventReminder_summary">Select the number of minutes for an event reminder</string>
     <string name="pref_reminderMethod_title">Reminder Method</string>
     <string name="pref_reminderMethod_summary">Select the methods to receive the reminder</string>
-
+    <string name="pref_delete_history_summery">Delete all history of smsEvents</string>
+    <string name="pref_delete_history_title">Delete history</string>
+    <string name="pref_are_you_sure_delete_history">Are you sure you want to delete history?</string>
+    <string name="history_successfully_deleted">SmsEvents history successfully deleted</string>
 
     <string name="alertDailogTitle">Do you want to create a new event?</string>
 
     <string name="notification_title_1">You hava</string>
     <string name="notification_title_2">new smsEvents</string>
-
-
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="toast_event_successfully">Event created successfully</string>
+    <string name="toast_event_unsuccessfully">Event not created. please check log file</string>
+    <string name="toast_smsEvent_without_reminder">Created new SmsEvent without Reminder. See App settings.</string>
 
     <string name="date">Date:</string>
     <string name="place">Place:</string>
@@ -39,5 +43,10 @@
     <string name="alert_meet_subject">The subject of the meeting</string>
     <string name="alert_place">Will take place at</string>
     <string name="alert_date">on the date</string>
+
+    <string name="details_title">SmsEvent Details</string>
+    <string name="date_accepted">Date accepted</string>
+    <string name="phone_number">Phone number</string>
+    <string name="orig_message">Sms message</string>
 </resources>
 
