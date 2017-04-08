@@ -1,9 +1,17 @@
 package tbject.com.smstocalendar.activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.view.View;
+
+import java.util.Locale;
 
 import tbject.com.smstocalendar.R;
 
@@ -13,6 +21,8 @@ public class OpeningScreen extends CommonActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        setAppLang(this);
         super.onCreate(savedInstanceState);
         instance = this;
         setContentView(R.layout.activity_opening_screen);
@@ -32,6 +42,17 @@ public class OpeningScreen extends CommonActivity {
 
     public static OpeningScreen getInstance() {
         return instance;
+    }
+
+    public static void setAppLang(Context context){
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String lang= preferences.getString(context.getString(R.string.appLanguage),"English");
+        Locale local = new Locale(lang);
+        Resources res = context.getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = local;
+        res.updateConfiguration(conf, dm);
     }
 
 }

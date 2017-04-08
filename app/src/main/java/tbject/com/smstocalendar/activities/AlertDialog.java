@@ -27,6 +27,7 @@ import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -42,6 +43,8 @@ public class AlertDialog extends Activity {
     private int smsEventCounter=0;
     private int totleSmsEvemts;
     private GoogleApiClient client;
+    private SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy hh:mm");
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -86,12 +89,14 @@ public class AlertDialog extends Activity {
     private void buildAlertDialog() {
 
         Log.d("buildAlertDialog","method start");
+        String content=getString(R.string.alert_meet_subject)+" "+currentSmsEvent.getTitle()+" "+getString(R.string.alert_place)+currentSmsEvent.getPlace()+" "+getString(R.string.alert_date)+" "+dateFormat.format(currentSmsEvent.getDate());
         builMaterialDialog=new MaterialDialog.Builder(this)
 
                 .title("("+smsEventCounter+"/"+totleSmsEvemts+")"+"  "+getString(R.string.alertDailogTitle))
-                .content(currentSmsEvent.toString())
+                .content(content)
                 .positiveText(R.string.yes)
                 .negativeText(R.string.no)
+                .cancelable(false)
                 .backgroundColor(getColor(R.color.mainBackground))
                 .contentColor(getColor(android.R.color.black))
                 .titleColor(getColor(android.R.color.black))
@@ -121,13 +126,14 @@ public class AlertDialog extends Activity {
     private void updateAlertDialog(){
         Log.d("updateAlertDialog","method start");
         if (smsEvents.size()>0) {
+
             Log.i("updateAlertDialog","The smsEvents list is not empty. Update the alertDailog with the smsEvent:"+currentSmsEvent.toString());
             currentSmsEvent = smsEvents.get(0);
             smsEvents.remove(0);
             smsEventCounter++;
             builMaterialDialog.setTitle("("+smsEventCounter+"/"+totleSmsEvemts+")"+"  "+getString(R.string.alertDailogTitle));
-            builMaterialDialog.setContent(currentSmsEvent.toString());
-         //   builMaterialDialog.show();
+            String content=getString(R.string.alert_meet_subject)+" "+currentSmsEvent.getTitle()+" "+getString(R.string.alert_place)+currentSmsEvent.getPlace()+" "+getString(R.string.alert_date)+" "+dateFormat.format(currentSmsEvent.getDate());
+            builMaterialDialog.setContent(content);
         }else{
             Log.d("updateAlertDialog","The smsEvents list is empty. Call finish method");
 

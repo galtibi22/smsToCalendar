@@ -4,11 +4,11 @@
         <item>עברית</item>
     </string-array>
     <string-array name="languageValuesList">
-        <item>English</item>
-        <item>iw</item>
+        <item>@string/english</item>
+        <item>@string/hebrew</item>
     </string-array>
     <string-array name="defualtLanguageValuesList">
-        <item>English</item>
+        <item>@string/english</item>
     </string-array>
 
 

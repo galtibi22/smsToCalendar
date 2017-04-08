@@ -4,11 +4,11 @@
         <item>עברית</item>
     </string-array>
     <string-array name="languageValuesList">
-        <item>English</item>
-        <item>iw</item>
+        <item>@string/english</item>
+        <item>@string/hebrew</item>
     </string-array>
     <string-array name="defualtLanguageValuesList">
-        <item>English</item>
+        <item>@string/english</item>
     </string-array>
 
 
@@ -22,11 +22,11 @@
         <item>30 דקות</item>
         <item>45 דקות</item>
         <item>60 דקות</item>
-        <item>2 דקות</item>
-        <item>4 דקות</item>
-        <item>8 דקות</item>
-        <item>12 דקות</item>
-        <item>24 דקות</item>
+        <item>2 שעות</item>
+        <item>4 שעות</item>
+        <item>8 שעות</item>
+        <item>12 שעות</item>
+        <item>24 שעות</item>
     </string-array>
     <string-array name="minutesEventReminderValues">
         <item>0</item>

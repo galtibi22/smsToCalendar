@@ -9,8 +9,11 @@ import android.view.MenuItem;
 import java.util.ArrayList;
 import java.util.List;
 
+import tbject.com.smstocalendar.Adapters.SmsEventAdapter;
 import tbject.com.smstocalendar.R;
 import tbject.com.smstocalendar.pojo.ContactInfo;
+import tbject.com.smstocalendar.pojo.SettingsProp;
+import tbject.com.smstocalendar.pojo.SmsEvent;
 
 public class HistoryTab extends Activity {
 
@@ -18,16 +21,9 @@ public class HistoryTab extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_my);
-
         setContentView(R.layout.activity_history_tab);
-        RecyclerView recList = (RecyclerView) findViewById(R.id.cardList);
-       // recList.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(this);
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recList.setLayoutManager(llm);
+        buildHistoryEvents();
 
-        ContactAdapter ca = new ContactAdapter(createList(30));
-        recList.setAdapter(ca);
     }
 
     @Override
@@ -50,7 +46,17 @@ public class HistoryTab extends Activity {
     }
 
 
+    private void buildHistoryEvents(){
+        RecyclerView recList = (RecyclerView) findViewById(R.id.cardList);
+        LinearLayoutManager llm = new LinearLayoutManager(this);
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        SettingTab.setDirectionByLan(this,recList);
 
+        recList.setLayoutManager(llm);
+        ArrayList<SmsEvent> smsEvents=SmsEvent.readDataFromDisk(this, SettingsProp.HISTORY_EVENT_DATA);
+        SmsEventAdapter ca = new SmsEventAdapter(smsEvents);
+        recList.setAdapter(ca);
+    }
     private List<ContactInfo> createList(int size) {
 
         List<ContactInfo> result = new ArrayList<ContactInfo>();
@@ -66,7 +72,11 @@ public class HistoryTab extends Activity {
 
         return result;
     }
-
+    @Override
+    public void onResume(){
+        super.onResume();
+        buildHistoryEvents();
+    }
 }
 
 

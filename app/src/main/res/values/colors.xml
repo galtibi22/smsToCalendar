@@ -4,7 +4,11 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#bb132d68</color>
     <color name="mainBackground">#d4e3fc</color>
+    <color name="tabBaclground">#bdd3f9</color>
     <color name="notification_bg">#3F51B5</color>
     <color name="notification_pressed_bg">#000000</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="unselected">#616874</color>
+    <color name="selected">#000000</color>
 </resources>

@@ -18,6 +18,7 @@ import java.util.Date;
 
 import tbject.com.smstocalendar.R;
 import tbject.com.smstocalendar.activities.AlertDialog;
+import tbject.com.smstocalendar.activities.OpeningScreen;
 import tbject.com.smstocalendar.pojo.SettingsProp;
 import tbject.com.smstocalendar.pojo.SmsEvent;
 
@@ -28,8 +29,10 @@ public class IncomingSmsService extends BroadcastReceiver {
     final SmsManager sms = SmsManager.getDefault();
     ArrayList<SmsEvent> smsEvents=new ArrayList<>();
 
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onReceive(Context context, Intent intent){
+        OpeningScreen.setAppLang(context);
         // Retrieves a map of extended data from the intent.
         final Bundle bundle = intent.getExtras();
         try {
@@ -69,15 +72,16 @@ public class IncomingSmsService extends BroadcastReceiver {
         date=new Date(date.getTime()+(1000 * 60 * 60 * 24));
         smsEvent.setTitle( "תור לרופא שיניים ");
         smsEvent.setPlace("השקמה 55 פרדסיה");
-        smsEvent.setDateString(date.toString());
+        smsEvent.setDate(date);
         Log.i("smsIsEventSms", "Success to parse sms to eventSms");
+        smsEvent.setDescription("desciption");
         return smsEvent;
     }
 
     private void addNotification(Context context,int numOfSmsEvent) {
         Notification.Builder nBuilder = new Notification.Builder(context)
                 .setSmallIcon(R.drawable.notification_icon)
-                .setContentTitle("יש לך " +numOfSmsEvent +" אירועים חדשים");
+                .setContentTitle(context.getString(R.string.notification_title_1)+" " +numOfSmsEvent +" "+context.getString(R.string.notification_title_2));
         Intent contentIntent = new Intent(context,AlertDialog.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         nBuilder.setContentIntent(pendingIntent);

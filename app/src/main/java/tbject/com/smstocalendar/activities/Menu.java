@@ -2,17 +2,21 @@ package tbject.com.smstocalendar.activities;
 
 import android.Manifest;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -57,7 +61,11 @@ public class Menu extends TabActivity implements OnTabChangeListener {
     private void initTabs() {
         // Get TabHost Refference
         tabHost = getTabHost();
-
+        String currentLan=getResources().getConfiguration().locale.getLanguage();
+        if (currentLan.equals(getString(R.string.hebrew)))
+            tabHost.setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        else
+            tabHost.setLayoutDirection(View.LAYOUT_DIRECTION_LTR);
         // Set TabChangeListener called when tab changed
         tabHost.setOnTabChangedListener(this);
 
@@ -66,15 +74,13 @@ public class Menu extends TabActivity implements OnTabChangeListener {
 
         // Create  Intents to launch an Activity for the tab (to be reused)
         intent = new Intent().setClass(this, SettingTab.class);
-        Drawable drawable=getResources().getDrawable(R.drawable.settings_icon);
-        spec = tabHost.newTabSpec("First").setIndicator(getString(R.string.setting),drawable)
+        spec = tabHost.newTabSpec("First").setIndicator(buildTabIndicator(getString(R.string.setting),this,R.drawable.tab_setting))
                 .setContent(intent);
         //Add intent to tab
         tabHost.addTab(spec);
 
         intent = new Intent().setClass(this, HistoryTab.class);
-        drawable=getResources().getDrawable(R.drawable.history_icon);
-        spec = tabHost.newTabSpec("Second").setIndicator(getString(R.string.history),drawable)
+        spec = tabHost.newTabSpec("Second").setIndicator(buildTabIndicator(getString(R.string.history),this,R.drawable.tab_history))
                 .setContent(intent);
         tabHost.addTab(spec);
 
@@ -114,5 +120,18 @@ public class Menu extends TabActivity implements OnTabChangeListener {
         super.onStop();
         AppIndex.AppIndexApi.end(client, getIndexApiAction());
         client.disconnect();
+    }
+
+    private View buildTabIndicator(String text, Context context,int icon) {
+
+        // Inflate the layout file we defined above
+        View view = LayoutInflater.from(context).inflate(R.layout.tab_indicator, null);
+
+        TextView tv = (TextView) view.findViewById(R.id.tabsText);
+        tv.setText(text);
+        ImageView imageView=(ImageView) view.findViewById(R.id.tabIcon);
+        imageView.setImageDrawable(getDrawable(icon));
+        return view;
+
     }
 }
