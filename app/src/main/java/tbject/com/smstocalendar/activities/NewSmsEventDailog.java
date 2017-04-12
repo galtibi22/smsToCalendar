@@ -32,6 +32,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import tbject.com.smstocalendar.DataManager;
 import tbject.com.smstocalendar.R;
 import tbject.com.smstocalendar.pojo.SettingsProp;
 import tbject.com.smstocalendar.pojo.SmsEvent;
@@ -45,14 +46,15 @@ public class NewSmsEventDailog extends Activity {
     private int totleSmsEvemts;
     private GoogleApiClient client;
     private SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy hh:mm");
-
+    private DataManager dataManager;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        dataManager=new DataManager(getApplicationContext());
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        smsEvents = SmsEvent.readDataFromDisk(this,SettingsProp.EVENT_DATA);
+        smsEvents = dataManager.readDataFromDisk(this,SettingsProp.EVENT_DATA);
         totleSmsEvemts=smsEvents.size();
         currentSmsEvent=smsEvents.get(0);
         smsEvents.remove(0);
@@ -71,10 +73,10 @@ public class NewSmsEventDailog extends Activity {
     public void finish() {
         Log.d("AlertDialog.finish","finish method start");
         if (smsEvents.size()>0)
-            SmsEvent.writeSmsEventsToDist(this,smsEvents,SettingsProp.EVENT_DATA);
+            dataManager.writeSmsEventsToDist(this,smsEvents,SettingsProp.EVENT_DATA);
         else
-            SmsEvent.deleteSmsEventDataFromDisk(this,SettingsProp.EVENT_DATA);
-        SmsEvent.writeSmsEventsToHistory(this,historySmsEvents);
+            dataManager.deleteSmsEventDataFromDisk(this,SettingsProp.EVENT_DATA);
+        dataManager.writeSmsEventsToHistory(this,historySmsEvents);
         builMaterialDialog.dismiss();
         finishAndRemoveTask ();
     }
@@ -90,44 +92,56 @@ public class NewSmsEventDailog extends Activity {
     private void buildAlertDialog() {
         Log.d("buildAlertDialog","method start");
         GravityEnum gravityEnum;
+        String content="";
         String currentLan=this.getResources().getConfiguration().locale.getLanguage();
         if (currentLan.equals(this.getString(R.string.hebrew)))
             gravityEnum = GravityEnum.END;
 
         else
             gravityEnum=GravityEnum.START;
-        String content=getString(R.string.alert_meet_subject)+" "+currentSmsEvent.getTitle()+" "
-                +getString(R.string.alert_place)+currentSmsEvent.getPlace()
-                +" "+getString(R.string.alert_date)+" "+dateFormat.format(currentSmsEvent.getDate());
-        builMaterialDialog=new MaterialDialog.Builder(this)
-
-                .title("("+smsEventCounter+"/"+totleSmsEvemts+")"+"  "+getString(R.string.alertDailogTitle)).titleGravity(gravityEnum)
+        content = getString(R.string.alert_meet_subject) + " " + currentSmsEvent.getTitle() + " "
+                + getString(R.string.alert_place) + currentSmsEvent.getPlace()
+                + " " + getString(R.string.alert_date) + " " + dateFormat.format(currentSmsEvent.getDate());
+        builMaterialDialog = new MaterialDialog.Builder(this)
+                    .title("(" + smsEventCounter + "/" + totleSmsEvemts + ")" + "  " + getString(R.string.alertDailogTitle)).titleGravity(gravityEnum)
                 .content(content).contentGravity(gravityEnum)
-                .positiveText(R.string.yes).buttonsGravity(gravityEnum)
-                .negativeText(R.string.no)
-                .cancelable(false)
-                .backgroundColor(getColor(R.color.mainBackground))
-                .contentColor(getColor(android.R.color.black))
-                .titleColor(getColor(android.R.color.black))
-                .positiveColor(getColor(android.R.color.darker_gray))
-                .negativeColor(getColor(android.R.color.darker_gray))
-                .buttonRippleColor(getColor(android.R.color.white))
+                    .positiveText(R.string.yes).buttonsGravity(gravityEnum)
+                    .negativeText(R.string.no)
+                    .cancelable(false)
+                    .backgroundColor(getColor(R.color.mainBackground))
+                    .contentColor(getColor(android.R.color.black))
+                    .titleColor(getColor(android.R.color.black))
+                    .positiveColor(getColor(android.R.color.darker_gray))
+                    .negativeColor(getColor(android.R.color.darker_gray))
+                    .buttonRippleColor(getColor(android.R.color.white))
                     .autoDismiss(false)
-                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        addEvent();
-                        updateAlertDialog();
-                    }
-                })
-                .onNegative(new MaterialDialog.SingleButtonCallback() {
-                    @Override
-                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        updateAlertDialog();
-                    }
-                }).show();
+                    .onPositive(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            if (!currentSmsEvent.isTimeFound()){
+                                new MaterialDialog.Builder(getApplicationContext())
+                                        .title("Set Time")
+                                        .inputRangeRes(2, 20, R.color.colorPrimary)
+                                        .input(null, null, new MaterialDialog.InputCallback() {
+                                            @Override
+                                            public void onInput(MaterialDialog dialog, CharSequence input) {
+                                                // Do something
+                                            }
+                                        }).show();
+                            }
+                            addEvent();
+                            updateAlertDialog();
+                        }
+                    })
+                    .onNegative(new MaterialDialog.SingleButtonCallback() {
+                        @Override
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                        public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                            updateAlertDialog();
+                        }
+                    }).show();
+
         Log.d("buildAlertDialog","method finish");
 
     }
@@ -155,7 +169,7 @@ public class NewSmsEventDailog extends Activity {
             ContentResolver cr = getContentResolver();
             ContentValues values = new ContentValues();
             values.put(CalendarContract.Events.DTSTART, currentSmsEvent.getDate().getTime());
-            values.put(CalendarContract.Events.DTEND, currentSmsEvent.getDate().getTime() + 60 * 60 * 1000);
+            values.put(CalendarContract.Events.DTEND, currentSmsEvent.getDateEnd().getTime());
             values.put(CalendarContract.Events.TITLE, currentSmsEvent.getTitle());
 
             values.put(CalendarContract.Events.DESCRIPTION, currentSmsEvent.getDescription());

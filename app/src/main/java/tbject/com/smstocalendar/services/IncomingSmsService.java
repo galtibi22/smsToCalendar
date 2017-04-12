@@ -16,6 +16,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Date;
 
+import tbject.com.smstocalendar.DataManager;
 import tbject.com.smstocalendar.R;
 import tbject.com.smstocalendar.activities.NewSmsEventDailog;
 import tbject.com.smstocalendar.activities.OpeningScreen;
@@ -32,6 +33,7 @@ public class IncomingSmsService extends BroadcastReceiver {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onReceive(Context context, Intent intent){
+        DataManager dataManager=new DataManager(context);
         OpeningScreen.setAppLang(context);
         // Retrieves a map of extended data from the intent.
         final Bundle bundle = intent.getExtras();
@@ -39,7 +41,7 @@ public class IncomingSmsService extends BroadcastReceiver {
             if (bundle != null) {
                 Log.i("BroadcastReceiver", "Broadcast Receiver start");
                 final Object[] pdusObj = (Object[]) bundle.get("pdus");
-                smsEvents=SmsEvent.readDataFromDisk(context,SettingsProp.EVENT_DATA);
+                smsEvents=dataManager.readDataFromDisk(context,SettingsProp.EVENT_DATA);
                 SmsEvent smsEvent=null;
                 for (int i = 0; i < pdusObj.length; i++) {
                     SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
@@ -52,7 +54,7 @@ public class IncomingSmsService extends BroadcastReceiver {
                     }
                 }
                 if (smsEvent!=null) {
-                    SmsEvent.writeSmsEventsToDist(context,smsEvents, SettingsProp.EVENT_DATA);
+                    dataManager.writeSmsEventsToDist(context,smsEvents, SettingsProp.EVENT_DATA);
                     addNotification(context, smsEvents.size());
 
                 }
@@ -73,6 +75,8 @@ public class IncomingSmsService extends BroadcastReceiver {
         smsEvent.setTitle( "תור לרופא שיניים ");
         smsEvent.setPlace("השקמה 55 פרדסיה");
         smsEvent.setDate(date);
+        date=new Date(date.getTime()+(1000 * 60 * 60 * 24)+(1000 * 60 * 60));
+        smsEvent.setDateEnd(date);
         smsEvent.setDescription(smsMessage.getDisplayMessageBody());
         smsEvent.setAccepted(new Date());
         smsEvent.setPhoneNumber(smsMessage.getDisplayOriginatingAddress().substring(1,4)+"-"+smsMessage.getDisplayOriginatingAddress().substring(4));

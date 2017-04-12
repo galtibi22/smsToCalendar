@@ -20,9 +20,9 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.GravityEnum;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import tbject.com.smstocalendar.DataManager;
 import tbject.com.smstocalendar.R;
 import tbject.com.smstocalendar.pojo.SettingsProp;
-import tbject.com.smstocalendar.pojo.SmsEvent;
 
 public class SettingTab extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private boolean statusAllowReminder;
@@ -62,18 +62,19 @@ public class SettingTab extends PreferenceActivity implements SharedPreferences.
                 .positiveText(R.string.yes).buttonsGravity(gravityEnum)
                 .negativeText(R.string.no)
                 .cancelable(false)
-                .backgroundColor(getColor(R.color.mainBackground))
+                .backgroundColor(getColor(android.R.color.white))
                 .contentColor(getColor(android.R.color.black))
                 .titleColor(getColor(android.R.color.black))
-                .positiveColor(getColor(android.R.color.darker_gray))
-                .negativeColor(getColor(android.R.color.darker_gray))
+                .positiveColor(getColor(R.color.dailog_button_text))
+                .negativeColor(getColor(R.color.dailog_button_text))
                 .buttonRippleColor(getColor(android.R.color.white))
                 .autoDismiss(false)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        SmsEvent.deleteSmsEventDataFromDisk(getApplicationContext(), SettingsProp.HISTORY_EVENT_DATA);
+                        DataManager datamanager=new DataManager(getApplicationContext());
+                        datamanager.deleteSmsEventDataFromDisk(getApplicationContext(), SettingsProp.HISTORY_EVENT_DATA);
                         Toast.makeText(getApplicationContext(),getString(R.string.history_successfully_deleted),
                                 Toast.LENGTH_SHORT).show();
                         deleteHistoryMaterialDialog.dismiss();

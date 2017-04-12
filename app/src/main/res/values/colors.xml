@@ -7,8 +7,7 @@
     <color name="tabBaclground">#bdd3f9</color>
     <color name="notification_bg">#3F51B5</color>
     <color name="notification_pressed_bg">#000000</color>
-    <color name="white">#FFFFFF</color>
-    <color name="black">#000000</color>
     <color name="unselected">#616874</color>
     <color name="selected">#000000</color>
+    <color name="dailog_button_text">#435988</color>
 </resources>

@@ -7,4 +7,6 @@
     <string name="allowReminder">allowReminder</string>
     <string name="SmsEventService">smsEventService</string>
     <string name="deleteHistory">deleteHistory</string>
+
 </resources>
+
