@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import tbject.com.smstocalendar.Adapters.SmsEventAdapter;
 import tbject.com.smstocalendar.DataManager;
 import tbject.com.smstocalendar.R;
-import tbject.com.smstocalendar.pojo.SettingsProp;
+import tbject.com.smstocalendar.pojo.SharePrefKeys;
 import tbject.com.smstocalendar.pojo.SmsEvent;
 
 public class HistoryTab extends Activity {
@@ -62,7 +62,7 @@ public class HistoryTab extends Activity {
 
         recList.setLayoutManager(llm);
         DataManager dataManager=new DataManager(this);
-        smsEvents=dataManager.readDataFromDisk(this, SettingsProp.HISTORY_EVENT_DATA);
+        smsEvents=dataManager.readDataFromDisk(this, SharePrefKeys.HISTORY_EVENT_DATA);
         SmsEventAdapter ca = new SmsEventAdapter(smsEvents);
         recList.setAdapter(ca);
     }

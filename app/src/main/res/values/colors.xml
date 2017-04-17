@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#bb132d68</color>
     <color name="mainBackground">#d4e3fc</color>
     <color name="tabBaclground">#bdd3f9</color>
     <color name="notification_bg">#3F51B5</color>
     <color name="notification_pressed_bg">#000000</color>
     <color name="unselected">#616874</color>
+    <color name="border">#C4D2E9</color>
+    <color name="text_color">#50555e</color>
     <color name="selected">#000000</color>
     <color name="dailog_button_text">#435988</color>
 </resources>

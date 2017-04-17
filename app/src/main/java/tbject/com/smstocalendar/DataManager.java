@@ -9,9 +9,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
-import tbject.com.smstocalendar.pojo.SettingsProp;
+import tbject.com.smstocalendar.pojo.SharePrefKeys;
 import tbject.com.smstocalendar.pojo.SmsEvent;
 
 /**
@@ -56,11 +59,11 @@ public class DataManager {
      * @param context
      * @return
      */
-    public ArrayList<SmsEvent> readDataFromDisk(Context context, SettingsProp settingsProp) {
-        Log.d("readDataFromDisk","method start");
+    public ArrayList<SmsEvent> readDataFromDisk(Context context, SharePrefKeys sharePrefKeys) {
+        Log.i("readDataFromDisk","method start");
         ArrayList<SmsEvent> smsEvents=new ArrayList<>();
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String smsEventsString=preferences.getString(settingsProp.name(),"null");
+        String smsEventsString=preferences.getString(sharePrefKeys.name(),"null");
         if (!smsEventsString.equals("null")){
             String[] smsEventsArray=smsEventsString.split("@@");
             if (!smsEventsArray[0].isEmpty())
@@ -69,45 +72,74 @@ public class DataManager {
                     SmsEvent smsEvent=new SmsEvent();
                     smsEvent.setTitle(smsEventArray[0]);
                     smsEvent.setDate(new Date(smsEventArray[1]));
-                    smsEvent.setPlace(smsEventArray[2]);
+                    smsEvent.setAddress(smsEventArray[2]);
                     smsEvent.setDescription(smsEventArray[3]);
                     smsEvent.setPhoneNumber(smsEventArray[4]);
                     smsEvent.setAccepted(new Date(smsEventArray[5]));
+                    smsEvent.setDateEnd(new Date(smsEventArray[6]));
                     smsEvents.add(smsEvent);
                 }
         }
-        Log.d("readDataFromDisk","Read the next smsEvents from disk with header "+settingsProp.name()+": "+smsEvents.toString());
+        Log.i("readDataFromDisk","Read the next smsEvents from disk with header "+ sharePrefKeys.name()+": "+smsEvents.toString());
         return smsEvents;
     }
 
-    public void writeSmsEventsToDist(Context context,ArrayList<SmsEvent> smsEvents,SettingsProp settingsProp){
+    public void writeSmsEventsToDist(Context context,ArrayList<SmsEvent> smsEvents,SharePrefKeys sharePrefKeys){
         String smsEventsString="";
-        Log.d("writeSmsEventsToDist","Write to disk with header:"+settingsProp.name()+smsEvents.toString());
+        Log.i("writeSmsEventsToDist","Write to disk with header:"+ sharePrefKeys.name()+smsEvents.toString());
         for (SmsEvent smsEvent:smsEvents){
-            smsEventsString+= smsEvent.getTitle()+";;"+smsEvent.getDate().toString()+";;"+smsEvent.getPlace()+";;"+smsEvent.getDescription()+";;"+
-                    smsEvent.getPhoneNumber()+";;"+smsEvent.getAccepted().toString()+"@@";
+            smsEventsString+= smsEvent.getTitle()+";;"+smsEvent.getDate().toString()+";;"+smsEvent.getAddress()+";;"+smsEvent.getDescription()+";;"+
+                    smsEvent.getPhoneNumber()+";;"+smsEvent.getAccepted().toString()+";;"+smsEvent.getDateEnd().toString()+";;"+"@@";
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putString(settingsProp.name().toString(),smsEventsString);
+        editor.putString(sharePrefKeys.name().toString(),smsEventsString);
         editor.commit();
     }
 
-    public void deleteSmsEventDataFromDisk(Context context,SettingsProp settingsProp){
-        Log.d("deleteSmsEventData","Delete all smsEvent from disk with header:"+settingsProp.name());
+    public void deleteSmsEventDataFromDisk(Context context,SharePrefKeys sharePrefKeys){
+        Log.i("deleteSmsEventData","Delete all smsEvent from disk with header:"+ sharePrefKeys.name());
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.remove(settingsProp.name());
+        editor.remove(sharePrefKeys.name());
         editor.commit();
     }
 
     public void writeSmsEventsToHistory(Context context,ArrayList <SmsEvent> smsEvents){
-        Log.d("writeSmsEventsToHistory","method start");
-        ArrayList<SmsEvent> historySmsevents=readDataFromDisk(context,SettingsProp.HISTORY_EVENT_DATA);
-        Log.d("writeSmsEventsToHistory","Read from file:"+historySmsevents.toString());
+        Log.i("writeSmsEventsToHistory","method start");
+        ArrayList<SmsEvent> historySmsevents=readDataFromDisk(context, SharePrefKeys.HISTORY_EVENT_DATA);
+        Log.i("writeSmsEventsToHistory","Read from file:"+historySmsevents.toString());
         smsEvents.addAll(smsEvents.size(),historySmsevents);
-        Log.d("writeSmsEventsToHistory","Write to file:"+smsEvents.toString());
-        writeSmsEventsToDist(context,smsEvents,SettingsProp.HISTORY_EVENT_DATA);
+        Log.i("writeSmsEventsToHistory","Write to file:"+smsEvents.toString());
+        writeSmsEventsToDist(context,smsEvents, SharePrefKeys.HISTORY_EVENT_DATA);
+    }
+
+    public void saveAddressesHistory(HashMap<String,String> addressesMap){
+        Log.i("saveAddressesHistory","method start");
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        SharedPreferences.Editor editor = preferences.edit();
+        Set<String> addresses=new HashSet<>();
+        for (String key:addressesMap.keySet()){
+            addresses.add(key+"@@"+addressesMap.get(key));
+        }
+        editor.putStringSet(SharePrefKeys.ADDDRESSES_HISTORY.name(),addresses);
+        editor.commit();
+        Log.i("saveAddressesHistory","method finish");
+
+    }
+
+    public HashMap<String,String> readAddressesHistory(){
+        Log.i("readAddressesHistory","method start");
+        Set <String> addresses=new HashSet<>();
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+        addresses=preferences.getStringSet(SharePrefKeys.ADDDRESSES_HISTORY.name(),addresses);
+        HashMap<String,String> addressesMap=new HashMap<>();
+        for (String address:addresses){
+            String addressSplitter[]=address.split("@@");
+            addressesMap.put(addressSplitter[0],addressSplitter[1]);
+        }
+        Log.i("readAddressesHistory","method finish");
+        return addressesMap;
     }
 
 

@@ -25,7 +25,9 @@ public class DateAnalyzer {
     public DateAnalyzer(Context context){
         this.context=context;
     }
-    public SmsEvent findDateAndTime(String desc,SmsEvent smsEvent){
+
+    public SmsEvent findDateAndTime(SmsEvent smsEvent){
+        String desc=smsEvent.getDescription();
         List<String> timesRegax= Arrays.asList(context.getResources().getStringArray(R.array.time_regax));
 
         ArrayList<String> dates=new ArrayList<>();
@@ -45,38 +47,40 @@ public class DateAnalyzer {
                 times=findTimeByString(desc);
 
             if (dates.size()==0){
-                Log.d("DEBUG","Cannot find date with any dateRegex return false");
-                return null;
+                Log.d("DEBUG","Cannot find date with any dateLogics");
             }
             else if( dates.size()==1 && times.size()==0){
-                //Date eventDate = getDateFromString(dates.get(0),"00:00");
-                //smsEvent.setDate(eventDate);
-                //smsEvent.setDate(new Date(eventDate.getTime()+1000*60*60));
-                //smsEvent.setTimeFound(false);
-                Log.d("DEBUG","Cannot find date with any timeRegex return false");
-                return null;
+                Date eventDate = getDateFromString(dates.get(0),"08:00");
+                smsEvent.setDate(eventDate);
+                smsEvent.setDateEnd(new Date(eventDate.getTime()+1000*60*60));
+                Log.d("DEBUG","Cannot find time with any timeLogics");
             }
             else if (dates.size()==1 && times.size()==1){
                 Date eventDate = getDateFromString(dates.get(0),times.get(0));
                 smsEvent.setDate(eventDate);
-                smsEvent.setDate(new Date(eventDate.getTime()+1000*60*60));
+                smsEvent.setDateEnd(new Date(eventDate.getTime()+1000*60*60));
             }
             else if (dates.size()==1 && times.size()==2){
-                Date eventDate = getDateFromString(dates.get(0),times.get(0));
-                smsEvent.setDate(eventDate);
-                Date eventDateEnd=getDateFromString(dates.get(0),times.get(1));
-                smsEvent.setDateEnd(eventDateEnd);
+                Date firstDate = getDateFromString(dates.get(0),times.get(0));
+                Date secondDate=getDateFromString(dates.get(0),times.get(1));
+                if (firstDate.getTime()<secondDate.getTime()) {
+                    smsEvent.setDate(firstDate);
+                    smsEvent.setDateEnd(secondDate);
+                }else{
+                    smsEvent.setDate(secondDate);
+                    smsEvent.setDateEnd(firstDate);
+                }
             }else{
                 Log.d("DEBUG","Do not handle find: "+dates.size()+" dates and "+times.size()+" times");
                 return null;
             }
 
-            return smsEvent;
         }catch (Exception e){
             e.printStackTrace();
             Log.d("DEBUG","findDate method fail. return false");
-            return null;
         }
+        return smsEvent;
+
     }
 
     private ArrayList<String> findDateByMonthHebrew(String body){
@@ -212,9 +216,7 @@ public class DateAnalyzer {
             if (separator.equals("."))
                 separator="\\.";
             String dateSplit[]=date.split(separator);
-            if (dateSplit.length==0){
-                System.out.println("test");
-            }
+
             if (dateSplit[0].length()==1)
                 dateSplit[0]="0"+dateSplit[0];
             if (dateSplit[1].length()==1)
@@ -238,7 +240,7 @@ public class DateAnalyzer {
             String separator=time.replaceAll("[0-9]","").substring(0,1);
             timeFormat="HH"+separator+"mm"+separator+"ss";
         }else if(time.length()==3){
-            System.out.print("");
+
         }
 
         try {
@@ -247,7 +249,7 @@ public class DateAnalyzer {
             Date returnDate= formatter.parse(date + " " + time);
             Calendar cal = Calendar.getInstance();
             cal.setTime(returnDate);
-            cal.add(Calendar.HOUR_OF_DAY,2);
+            cal.add(Calendar.HOUR_OF_DAY,0);
             return  cal.getTime();
         }catch (ParseException e){
             Log.d("DEBUG","getDateFromString cannot parse date:"+ date +" "+ "time:"+time);

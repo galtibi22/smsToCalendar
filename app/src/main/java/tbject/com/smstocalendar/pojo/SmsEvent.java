@@ -5,12 +5,12 @@ import java.util.Date;
 public class SmsEvent  {
     private String title;
     private String description;
-    private String place;
+    private String address;
     private Date date;
     private Date dateEnd;
     private String phoneNumber;
     private Date accepted;
-    private boolean timeFound;
+    private String addressPattern;
 
 
     public void setTitle(String title) {
@@ -27,18 +27,18 @@ public class SmsEvent  {
         this.description = description;
     }
 
-    public void setPlace(String place) {
-        if (place==null||place.isEmpty())
-            place= " ";
-        this.place = place;
+    public void setAddress(String address) {
+        if (address==null||address.isEmpty())
+            address= "";
+        this.address = address;
     }
 
     public String getTitle() {
         return title;
     }
 
-    public String getPlace() {
-        return place;
+    public String getAddress() {
+        return address;
     }
 
     public Date getDate() {
@@ -72,7 +72,7 @@ public class SmsEvent  {
         return "SmsEvent{" +
                 "title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", place='" + place + '\'' +
+                ", address='" + address + '\'' +
                 ", date=" + date + '\'' +
                 ", dateEnd=" + dateEnd + '\'' +
                 ", phoneNumber="+phoneNumber + '\'' +
@@ -88,11 +88,13 @@ public class SmsEvent  {
         this.dateEnd = dateEnd;
     }
 
-    public void setTimeFound(boolean timeFound) {
-        this.timeFound = timeFound;
+
+    public String getAddressPattern() {
+        return addressPattern;
     }
 
-    public boolean isTimeFound() {
-        return timeFound;
+    public void setAddressPattern(String addressPattern) {
+        this.addressPattern = addressPattern;
     }
+
 }

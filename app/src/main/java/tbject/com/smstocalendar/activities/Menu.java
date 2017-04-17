@@ -8,6 +8,7 @@ import android.graphics.Point;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -41,7 +42,15 @@ public class Menu extends TabActivity implements OnTabChangeListener {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_menu);
         instance = this;
-        requestPermissions(new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR,Manifest.permission.READ_SMS,Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.RECEIVE_SMS},1);
+        requestPermissions(new String[]{Manifest.permission.READ_CALENDAR,
+                Manifest.permission.WRITE_CALENDAR,
+                Manifest.permission.READ_SMS,
+                Manifest.permission.INTERNET,
+                Manifest.permission.ACCESS_NETWORK_STATE,
+                Manifest.permission.RECEIVE_SMS,
+                Manifest.permission.READ_CONTACTS},1);
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         setScreenSize();
         initTabs();
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();

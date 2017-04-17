@@ -1,6 +1,8 @@
 <resources>
     <string name="english">en</string>
     <string name="hebrew">iw</string>
+    <string name="hebrew_he">he</string>
+
     <string name="app_name">SmsToCalendar</string>
     <string name="setting">הגדרות</string>
     <string name="history">היסטוריה</string>
@@ -9,7 +11,8 @@
     <string name="close">סגור</string>
 
     <string name="title_activity_settings">הגדרות</string>
-
+    <string name="pref_smsEvent_service_enable">השירות מאופשר</string>
+    <string name="pref_smsEvent_service_disable">השירות מבוטל</string>
     <string name="pref_general">הגדרות</string>
     <string name="pref_SmsEventService_title">שירות-smsEvent</string>
     <string name="pref_SmsEventService_summary">האם להפעיל את השירות?</string>
@@ -27,15 +30,18 @@
     <string name="pref_delete_history_summery">מחיקת היסטוריה של הודעות האירועים</string>
     <string name="pref_delete_history_title">מחיקת היסוריה</string>
     <string name="pref_are_you_sure_delete_history">האם האתה בטוח שהינך מעוניין למחוק את ההיסטוריה?</string>
-
-
+    <string name="pref_home_address_title">כתובת הבית</string>
+    <string name="pref_home_address_summery">מהי כתובת ביתך?</string>
+    <string name="pref_work_address_title">כתובת העבודה</string>
+    <string name="pref_work_address_summery">מהי כתובת העבודה שלך?</string>
+    <string name="pref_personal_information">פרטים אישיים</string>
     <string name="history_successfully_deleted">היסטורית הודעות אירועים נמחקו בהצלחה</string>
 
     <string name="toast_event_successfully">אירוע נוצר בהצלחה</string>
     <string name="toast_event_unsuccessfully">אירוע לא נוצר.בדוק קובץ יומן</string>
     <string name="toast_smsEvent_without_reminder">נוצר אירוע ללא תזכורת. אנא בדוק הגדרות אפליקציה</string>
 
-    <string name="alertDailogTitle">האם ליצור אירוע חדש?</string>
+    <string name="create_new_event_main_title">יצירת אירוע חדש</string>
 
     <string name="notification_title_1">יש לך</string>
     <string name="notification_title_2">הודעות אירוע חדשים</string>
@@ -44,8 +50,9 @@
     <string name="date">תאריך:</string>
     <string name="place">מקום:</string>
     <string name="description">תיאור:</string>
-
-    <string name="alert_meet_subject">פגישה בנושא</string>
+    <string name="start_time">התחלה:</string>
+    <string name="end_time">סיום:</string>
+    <string name="alert_meet_subject">נושא הפגישה</string>
     <string name="alert_place">תתקיים ב</string>
     <string name="alert_date">בתאריך</string>
 

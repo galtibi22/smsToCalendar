@@ -29,6 +29,7 @@
         <item>בתאריך</item>
         <item>תואמ</item>
         <item>השלמה</item>
+        <item>נפגש</item>
     </string-array>
     <string-array name="initial_screening_keys_negetive">
         <item>להזמנת</item>
@@ -96,5 +97,130 @@
         <item>((?:(?:[0-2]?\\d{1})|(?:[3][01]{1})))(?![\\d])([:])((?:(?:[0-2]?\\d{1})|(?:[3][01]{1})))(?![\\d])</item>//ddmm
     </string-array>
 
+    <string-array name="contact_Address">
+        <item>אצלי</item>
+        <item>בבית שלי</item>
+        <item>אצלנו בבית</item>
+        <item>בביתי</item>
+    </string-array>
+    <string-array name="my_address">
+        <item>בבית שלך</item>
+        <item>אצלך</item>
+        <item>בביתך</item>
+        <item>תואם עבורכם ביקור</item>
+        <item>דירה שלך</item>
+        <item>דירתך</item>
+        <item>יגיע אליכם</item>
+        <item>בביתכם</item>
+    </string-array>
+<string name="your_home">בבית שלי</string>
+    <string name="your_work">בעבודה שלי</string>
+    <string-array name="work_address">
+        <item>משרד שלך</item>
+        <item>עבודתך</item>
+        <item>מקום העבודה שלך</item>
+        <item>היכן שאתה עובד</item>
 
+    </string-array>
+
+    <string-array name="addresses_pattern">
+        <item>כתובת</item>
+        <item>שעה</item>
+        <item>מקום</item>
+        <item>בית</item>
+        <item>להגיע</item>
+    </string-array>
+    <string-array name="specific_places">
+        <item>בבית</item>
+        <item>מכבידנט</item>
+        <item>קיבוץ</item>
+        <item>סניף</item>
+        <item>מרפאת</item>
+    </string-array>
+    <string-array name="words_out">
+        <item>מקום</item>
+        <item>שעה</item>
+        <item>כתובת</item>
+        <item>שלום רב</item>
+        <item>טלפון</item>
+        <item>נקבע</item>
+        <item>לך</item>
+        <item>בתאריך</item>
+        <item>תאריך</item>
+        <item>קומה</item>
+        <item>דירה</item>
+        <item>ביום</item>
+        <item>היום</item>
+        <item>ניתן</item>
+        <item>לקוח</item>
+        <item>אנא</item>
+        <item>להסרה</item>
+        <item>להסרה</item>
+        <item>מועד</item>
+        <item>הגעה</item>
+        <item>לפרטים</item>
+        <item>משפחת</item>
+        <item>בבקשה</item>
+        <item>תודה</item>
+        <item>מוזמנים</item>
+        <item>באתר</item>
+        <item>באפקליצקיה</item>
+        <item>חינם</item>
+        <item>שנקבע</item>
+        <item>בברכה</item>
+        <item>נשלח</item>
+        <item>שנקבעה</item>
+
+    </string-array>
+    <string-array name="titles_keys">
+        <item>חתונה</item>
+        <item>טכנאי</item>
+        <item>ד\"ר</item>
+        <item>רופא</item>
+        <item>מרפאת</item>
+        <item>משלוח</item>
+        <item>מתקין</item>
+        <item>פגישה</item>
+        <item>שיננית</item>
+        <item>מבחן</item>
+        <item>שיעור</item>
+        <item>מרפאת אחיות</item>
+        <item>חיסון</item>
+        <item>שליחות להחלפת המכשיר התקול</item>
+        <item>אודישן</item>
+        <item>ראיון</item>
+        <item>הופעה</item>
+        <item>נקבע תור</item>
+        <item>מסעדת</item>
+        <item>מסעדה</item>
+        <item>שולחן ל</item>
+        <item>משחק של אקזיט רום</item>
+        <item>אירוע</item>
+</string-array>
+
+    <string-array name="titles">
+        <item>הנכם מוזמנים לחתונה</item>
+        <item>ביקור טכנאי</item>
+        <item>תור לדר</item>
+        <item>תור לרופא</item>
+        <item>תור למרפאת</item>
+        <item>משלוח משליח</item>
+        <item>מתקין להתקנה</item>
+        <item>יש לך פגישה</item>
+        <item>תור לשיננית</item>
+        <item>יש לך מבחן</item>
+        <item>יש לך שיעור</item>
+        <item>תור למרפאת אחיות</item>
+        <item>חיסון</item>
+        <item>שליחות להחלפת המכשיר התקול</item>
+        <item>תואם לך אודישן</item>
+        <item>נקבע לך ראיון עבודה</item>
+        <item>אל תשכח את ההופעה</item>
+        <item>נקבע תור</item>
+        <item>הזמנה למסעדה</item>
+        <item>הזמנה למסעדה</item>
+        <item>הזמנה למסעדה</item>
+        <item>משחק של אקזיט רום</item>
+        <item>הינך מוזמן לאירוע</item>
+    </string-array>
 </resources>

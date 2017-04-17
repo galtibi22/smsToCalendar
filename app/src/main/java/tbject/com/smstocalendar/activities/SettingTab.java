@@ -1,8 +1,10 @@
 package tbject.com.smstocalendar.activities;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -22,7 +24,8 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import tbject.com.smstocalendar.DataManager;
 import tbject.com.smstocalendar.R;
-import tbject.com.smstocalendar.pojo.SettingsProp;
+import tbject.com.smstocalendar.pojo.SharePrefKeys;
+import tbject.com.smstocalendar.services.IncomingSmsService;
 
 public class SettingTab extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener{
     private boolean statusAllowReminder;
@@ -35,13 +38,29 @@ public class SettingTab extends PreferenceActivity implements SharedPreferences.
         //getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
         PreferenceManager.getDefaultSharedPreferences(this).registerOnSharedPreferenceChangeListener(this);
         statusAllowReminder=((SwitchPreference) findPreference(getString(R.string.allowReminder))).isEnabled();
-
+        ListPreference appLan=(ListPreference) findPreference(getString(R.string.appLanguage));
+        if(appLan.getValue() == null){
+            appLan.setValueIndex(1);
+        }
         Preference preference = (Preference) findPreference(getString(R.string.deleteHistory));
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 deleteHistory();
+                return true;
+            }
+        });
+        final SwitchPreference smsEventService = (SwitchPreference) findPreference(getString(R.string.SmsEventService));
+        smsEventService.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (smsEventService.isChecked()){
+                    disableBroadcastReceiver();
+                }else{
+                    enableBroadcastReceiver();
+
+                }
                 return true;
             }
         });
@@ -74,7 +93,7 @@ public class SettingTab extends PreferenceActivity implements SharedPreferences.
                     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         DataManager datamanager=new DataManager(getApplicationContext());
-                        datamanager.deleteSmsEventDataFromDisk(getApplicationContext(), SettingsProp.HISTORY_EVENT_DATA);
+                        datamanager.deleteSmsEventDataFromDisk(getApplicationContext(), SharePrefKeys.HISTORY_EVENT_DATA);
                         Toast.makeText(getApplicationContext(),getString(R.string.history_successfully_deleted),
                                 Toast.LENGTH_SHORT).show();
                         deleteHistoryMaterialDialog.dismiss();
@@ -148,7 +167,27 @@ public class SettingTab extends PreferenceActivity implements SharedPreferences.
         }
     }
 
+    public void enableBroadcastReceiver()
+    {
+        ComponentName receiver = new ComponentName(this, IncomingSmsService.class);
+        PackageManager pm = this.getPackageManager();
 
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_ENABLED,
+                PackageManager.DONT_KILL_APP);
+        Toast.makeText(this,getString(R.string.pref_smsEvent_service_enable), Toast.LENGTH_SHORT).show();
+    }
+    /**
+     * This method disables the Broadcast receiver registered in the AndroidManifest file.
+     */
+    public void disableBroadcastReceiver(){
+        ComponentName receiver = new ComponentName(this, IncomingSmsService.class);
+        PackageManager pm = this.getPackageManager();
+        pm.setComponentEnabledSetting(receiver,
+                PackageManager.COMPONENT_ENABLED_STATE_DISABLED,
+                PackageManager.DONT_KILL_APP);
+        Toast.makeText(this, getString(R.string.pref_smsEvent_service_disable), Toast.LENGTH_SHORT).show();
+    }
 
 
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="english">en</string>
     <string name="hebrew">iw</string>
+    <string name="hebrew_he">he</string>
     <string name="app_name">SmsToCalendar</string>
     <string name="setting">Setting</string>
     <string name="history">History</string>
@@ -9,7 +10,8 @@
     <string name="close">Close</string>
 
     <string name="title_activity_settings">Settings</string>
-
+    <string name="pref_smsEvent_service_enable">SmsEvent service enable</string>
+    <string name="pref_smsEvent_service_disable">SmsEvent service disable</string>
     <string name="pref_general">General</string>
     <string name="pref_SmsEventService_title">SmsEvent Service</string>
     <string name="pref_SmsEventService_summary">Enable or Disable the main service</string>
@@ -27,9 +29,15 @@
     <string name="pref_delete_history_summery">Delete all history of smsEvents</string>
     <string name="pref_delete_history_title">Delete history</string>
     <string name="pref_are_you_sure_delete_history">Are you sure you want to delete history?</string>
+    <string name="pref_personal_information">Personal Information</string>
+    <string name="pref_home_address_title">Home Address</string>
+    <string name="pref_home_address_summery">What is your home address?</string>
+    <string name="pref_work_address_title">Work Address</string>
+    <string name="pref_work_address_summery">What is your work address?</string>
     <string name="history_successfully_deleted">SmsEvents history successfully deleted</string>
 
-    <string name="alertDailogTitle">Do you want to create a new event?</string>
+
+    <string name="create_new_event_main_title">Create a new event</string>
 
     <string name="notification_title_1">You hava</string>
     <string name="notification_title_2">new smsEvents</string>
@@ -40,8 +48,10 @@
     <string name="date">Date:</string>
     <string name="place">Place:</string>
     <string name="description">Description:</string>
-    <string name="alert_meet_subject">The subject of the meeting</string>
+    <string name="alert_meet_subject">The meeting topic</string>
     <string name="alert_place">Will take place at</string>
+    <string name="start_time">Start:</string>
+    <string name="end_time">End:</string>
     <string name="alert_date">on the date</string>
 
     <string name="details_title">SmsEvent Details</string>

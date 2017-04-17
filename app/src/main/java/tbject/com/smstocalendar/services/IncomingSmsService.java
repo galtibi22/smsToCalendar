@@ -13,23 +13,23 @@ import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
 import android.util.Log;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 
 import tbject.com.smstocalendar.DataManager;
 import tbject.com.smstocalendar.R;
-import tbject.com.smstocalendar.activities.NewSmsEventDailog;
+import tbject.com.smstocalendar.activities.NewSmsEventManual;
 import tbject.com.smstocalendar.activities.OpeningScreen;
-import tbject.com.smstocalendar.pojo.SettingsProp;
+import tbject.com.smstocalendar.analyzers.SmsEventAnalyzer;
+import tbject.com.smstocalendar.pojo.SharePrefKeys;
 import tbject.com.smstocalendar.pojo.SmsEvent;
 
 //import tbject.com.smstocalendar.activities.AlertDialog;
 
-public class IncomingSmsService extends BroadcastReceiver {
+    public class IncomingSmsService extends BroadcastReceiver {
     private final int NOTIFICATION_ID=281988;
     final SmsManager sms = SmsManager.getDefault();
     ArrayList<SmsEvent> smsEvents=new ArrayList<>();
-
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onReceive(Context context, Intent intent){
@@ -41,22 +41,25 @@ public class IncomingSmsService extends BroadcastReceiver {
             if (bundle != null) {
                 Log.i("BroadcastReceiver", "Broadcast Receiver start");
                 final Object[] pdusObj = (Object[]) bundle.get("pdus");
-                smsEvents=dataManager.readDataFromDisk(context,SettingsProp.EVENT_DATA);
+                smsEvents=dataManager.readDataFromDisk(context, SharePrefKeys.EVENT_DATA);
                 SmsEvent smsEvent=null;
-                for (int i = 0; i < pdusObj.length; i++) {
-                    SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
+                if (pdusObj.length>0){
+                    SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[0]);
                     String phoneNumber = currentMessage.getDisplayOriginatingAddress();
                     String message = currentMessage.getDisplayMessageBody();
-                    Log.d("SmsReceiver", "senderNum: "+ phoneNumber + "; message: " + message);
-                    smsEvent = isSmsEvent(currentMessage);
+                    Log.i("SmsReceiver", "senderNum: "+ phoneNumber + "; message: " + message);
+                    for (int i=1;i<pdusObj.length;i++){
+                        message+=SmsMessage.createFromPdu((byte[]) pdusObj[i]).getDisplayMessageBody()+" ";
+                    }
+                    smsEvent = isSmsEvent(message,phoneNumber,context);
                     if (smsEvent != null) {
                         smsEvents.add(smsEvent);
                     }
                 }
-                if (smsEvent!=null) {
-                    dataManager.writeSmsEventsToDist(context,smsEvents, SettingsProp.EVENT_DATA);
-                    addNotification(context, smsEvents.size());
 
+                if (smsEvent!=null) {
+                    dataManager.writeSmsEventsToDist(context,smsEvents, SharePrefKeys.EVENT_DATA);
+                    addNotification(context, smsEvents.size());
                 }
             }
         } catch (Exception e) {
@@ -68,19 +71,27 @@ public class IncomingSmsService extends BroadcastReceiver {
 
 
 
-    private SmsEvent isSmsEvent (SmsMessage smsMessage){
-        SmsEvent smsEvent=new SmsEvent();
-        Date date=new Date();
+    private SmsEvent isSmsEvent (String body,String phoneNumber,Context context){
+        SmsEvent smsEvent=null;
+        try {
+            SmsEventAnalyzer smsEventAnalyzer=new SmsEventAnalyzer(context);
+            if (smsEventAnalyzer.analyzeSms(body,phoneNumber.substring(1,4)+"-"+phoneNumber.substring(4))) {
+                smsEvent = smsEventAnalyzer.getSmsEvent();
+                Log.i("smsIsEventSms", "Success to parse sms to eventSms="+smsEvent.toString());
+
+            }
+       /* Date date=new Date();
         date=new Date(date.getTime()+(1000 * 60 * 60 * 24));
         smsEvent.setTitle( "תור לרופא שיניים ");
-        smsEvent.setPlace("השקמה 55 פרדסיה");
+        smsEvent.setAddress("השקמה 55 פרדסיה");
         smsEvent.setDate(date);
         date=new Date(date.getTime()+(1000 * 60 * 60 * 24)+(1000 * 60 * 60));
         smsEvent.setDateEnd(date);
         smsEvent.setDescription(smsMessage.getDisplayMessageBody());
-        smsEvent.setAccepted(new Date());
         smsEvent.setPhoneNumber(smsMessage.getDisplayOriginatingAddress().substring(1,4)+"-"+smsMessage.getDisplayOriginatingAddress().substring(4));
-        Log.i("smsIsEventSms", "Success to parse sms to eventSms");
+**/        } catch (IOException e) {
+            e.printStackTrace();
+        }
         return smsEvent;
     }
 
@@ -88,7 +99,7 @@ public class IncomingSmsService extends BroadcastReceiver {
         Notification.Builder nBuilder = new Notification.Builder(context)
                 .setSmallIcon(R.drawable.notification_icon)
                 .setContentTitle(context.getString(R.string.notification_title_1)+" " +numOfSmsEvent +" "+context.getString(R.string.notification_title_2));
-        Intent contentIntent = new Intent(context,NewSmsEventDailog.class);
+        Intent contentIntent = new Intent(context,NewSmsEventManual.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, contentIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         nBuilder.setContentIntent(pendingIntent);
         nBuilder.setDefaults(Notification.DEFAULT_SOUND);
@@ -97,6 +108,7 @@ public class IncomingSmsService extends BroadcastReceiver {
         NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(NOTIFICATION_ID, nBuilder.build());
+        Log.i("createNotification","Recive new smsEvent - create new notification message");
 
     }
 

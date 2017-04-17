@@ -14,7 +14,6 @@
             android:title="@string/pref_appLanguage_title"
             android:summary="@string/pref_appLanguage_summary"
             android:key="@string/appLanguage"
-            android:defaultValue="1"
             android:entries="@array/languageEntriesList"
             android:entryValues="@array/languageValuesList">
         </ListPreference>
@@ -23,9 +22,9 @@
             android:dialogTitle="@string/pref_smsEventServiceLanguage_title"
             android:summary="@string/pref_smsEventServiceLanguage_summary"
             android:key="@string/smsEventServiceLanguage"
-            android:defaultValue="@array/defualtLanguageValuesList"
-            android:entries="@array/languageEntriesList"
-            android:entryValues="@array/languageValuesList">
+            android:defaultValue="@array/language_support_default"
+            android:entries="@array/language_support"
+            android:entryValues="@array/language_support_value">
         </MultiSelectListPreference>
 
         <Preference android:title="@string/pref_delete_history_title"
@@ -56,6 +55,19 @@
             android:entries="@array/reminderMethodEntries"
             android:entryValues="@array/reminderMethodValues">
         </ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_personal_information">
+        <EditTextPreference
+            android:title="@string/pref_home_address_title"
+            android:summary="@string/pref_home_address_summery"
+            android:key="@string/homeAddress">
+        </EditTextPreference>
+        <EditTextPreference
+            android:title="@string/pref_work_address_title"
+            android:summary="@string/pref_work_address_summery"
+            android:key="@string/workAddress">
+            </EditTextPreference>
 
 
     </PreferenceCategory>

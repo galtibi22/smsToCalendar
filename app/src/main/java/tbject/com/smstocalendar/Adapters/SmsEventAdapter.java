@@ -31,7 +31,7 @@ public class SmsEventAdapter extends RecyclerView.Adapter<SmsEventAdapter.SmsEve
         SmsEvent smsEvent = contactList.get(i);
         SimpleDateFormat dateFormat=new SimpleDateFormat("dd/MM/yyyy hh:mm");
         contactViewHolder.dateValue.setText(dateFormat.format(smsEvent.getDate()));
-        contactViewHolder.placeValue.setText(smsEvent.getPlace());
+        contactViewHolder.placeValue.setText(smsEvent.getAddress());
         contactViewHolder.title.setText(smsEvent.getTitle());
     }
 

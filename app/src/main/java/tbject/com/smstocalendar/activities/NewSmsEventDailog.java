@@ -34,7 +34,7 @@ import java.util.Calendar;
 
 import tbject.com.smstocalendar.DataManager;
 import tbject.com.smstocalendar.R;
-import tbject.com.smstocalendar.pojo.SettingsProp;
+import tbject.com.smstocalendar.pojo.SharePrefKeys;
 import tbject.com.smstocalendar.pojo.SmsEvent;
 
 public class NewSmsEventDailog extends Activity {
@@ -54,7 +54,7 @@ public class NewSmsEventDailog extends Activity {
         super.onCreate(savedInstanceState);
         dataManager=new DataManager(getApplicationContext());
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
-        smsEvents = dataManager.readDataFromDisk(this,SettingsProp.EVENT_DATA);
+        smsEvents = dataManager.readDataFromDisk(this, SharePrefKeys.EVENT_DATA);
         totleSmsEvemts=smsEvents.size();
         currentSmsEvent=smsEvents.get(0);
         smsEvents.remove(0);
@@ -73,9 +73,9 @@ public class NewSmsEventDailog extends Activity {
     public void finish() {
         Log.d("AlertDialog.finish","finish method start");
         if (smsEvents.size()>0)
-            dataManager.writeSmsEventsToDist(this,smsEvents,SettingsProp.EVENT_DATA);
+            dataManager.writeSmsEventsToDist(this,smsEvents, SharePrefKeys.EVENT_DATA);
         else
-            dataManager.deleteSmsEventDataFromDisk(this,SettingsProp.EVENT_DATA);
+            dataManager.deleteSmsEventDataFromDisk(this, SharePrefKeys.EVENT_DATA);
         dataManager.writeSmsEventsToHistory(this,historySmsEvents);
         builMaterialDialog.dismiss();
         finishAndRemoveTask ();
@@ -100,10 +100,10 @@ public class NewSmsEventDailog extends Activity {
         else
             gravityEnum=GravityEnum.START;
         content = getString(R.string.alert_meet_subject) + " " + currentSmsEvent.getTitle() + " "
-                + getString(R.string.alert_place) + currentSmsEvent.getPlace()
+                + getString(R.string.alert_place) + currentSmsEvent.getAddress()
                 + " " + getString(R.string.alert_date) + " " + dateFormat.format(currentSmsEvent.getDate());
         builMaterialDialog = new MaterialDialog.Builder(this)
-                    .title("(" + smsEventCounter + "/" + totleSmsEvemts + ")" + "  " + getString(R.string.alertDailogTitle)).titleGravity(gravityEnum)
+                    .title("(" + smsEventCounter + "/" + totleSmsEvemts + ")" + "  " + getString(R.string.create_new_event_main_title)).titleGravity(gravityEnum)
                 .content(content).contentGravity(gravityEnum)
                     .positiveText(R.string.yes).buttonsGravity(gravityEnum)
                     .negativeText(R.string.no)
@@ -119,17 +119,6 @@ public class NewSmsEventDailog extends Activity {
                         @Override
                         @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                         public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                            if (!currentSmsEvent.isTimeFound()){
-                                new MaterialDialog.Builder(getApplicationContext())
-                                        .title("Set Time")
-                                        .inputRangeRes(2, 20, R.color.colorPrimary)
-                                        .input(null, null, new MaterialDialog.InputCallback() {
-                                            @Override
-                                            public void onInput(MaterialDialog dialog, CharSequence input) {
-                                                // Do something
-                                            }
-                                        }).show();
-                            }
                             addEvent();
                             updateAlertDialog();
                         }
@@ -154,8 +143,8 @@ public class NewSmsEventDailog extends Activity {
             currentSmsEvent = smsEvents.get(0);
             smsEvents.remove(0);
             smsEventCounter++;
-            builMaterialDialog.setTitle("("+smsEventCounter+"/"+totleSmsEvemts+")"+"  "+getString(R.string.alertDailogTitle));
-            String content=getString(R.string.alert_meet_subject)+" "+currentSmsEvent.getTitle()+" "+getString(R.string.alert_place)+currentSmsEvent.getPlace()+" "+getString(R.string.alert_date)+" "+dateFormat.format(currentSmsEvent.getDate());
+            builMaterialDialog.setTitle("("+smsEventCounter+"/"+totleSmsEvemts+")"+"  "+getString(R.string.create_new_event_main_title));
+            String content=getString(R.string.alert_meet_subject)+" "+currentSmsEvent.getTitle()+" "+getString(R.string.alert_place)+currentSmsEvent.getAddress()+" "+getString(R.string.alert_date)+" "+dateFormat.format(currentSmsEvent.getDate());
             builMaterialDialog.setContent(content);
         }else{
             Log.d("updateAlertDialog","The smsEvents list is empty. Call finish method");
@@ -173,8 +162,8 @@ public class NewSmsEventDailog extends Activity {
             values.put(CalendarContract.Events.TITLE, currentSmsEvent.getTitle());
 
             values.put(CalendarContract.Events.DESCRIPTION, currentSmsEvent.getDescription());
-            if (currentSmsEvent.getPlace() != null)
-                values.put(CalendarContract.Events.EVENT_LOCATION, currentSmsEvent.getPlace());
+            if (currentSmsEvent.getAddress() != null)
+                values.put(CalendarContract.Events.EVENT_LOCATION, currentSmsEvent.getAddress());
             values.put(CalendarContract.Events.CALENDAR_ID, 1);
             values.put(CalendarContract.Events.EVENT_TIMEZONE, Calendar.getInstance()
                     .getTimeZone().getID());

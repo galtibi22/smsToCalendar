@@ -21,7 +21,6 @@ public class OpeningScreen extends CommonActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         setAppLang(this);
         super.onCreate(savedInstanceState);
         instance = this;
@@ -46,7 +45,7 @@ public class OpeningScreen extends CommonActivity {
 
     public static void setAppLang(Context context){
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String lang= preferences.getString(context.getString(R.string.appLanguage),"English");
+        String lang= preferences.getString(context.getString(R.string.appLanguage),context.getString(R.string.hebrew));
         Locale local = new Locale(lang);
         Resources res = context.getResources();
         DisplayMetrics dm = res.getDisplayMetrics();

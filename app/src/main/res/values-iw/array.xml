@@ -7,10 +7,15 @@
         <item>@string/english</item>
         <item>@string/hebrew</item>
     </string-array>
-    <string-array name="defualtLanguageValuesList">
-        <item>@string/english</item>
+    <string-array name="language_support">
+        <item>עברית</item>
     </string-array>
-
+    <string-array name="language_support_value">
+        <item>@string/hebrew</item>
+    </string-array>
+    <string-array name="language_support_default">
+        <item>@string/hebrew</item>
+    </string-array>
 
     <string-array name="minutesEventReminderEntries">
         <item>0 דקות</item>
