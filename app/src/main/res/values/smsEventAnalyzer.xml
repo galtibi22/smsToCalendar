@@ -196,6 +196,9 @@
         <item>שולחן ל</item>
         <item>משחק של אקזיט רום</item>
         <item>אירוע</item>
+        <item>נפגש</item>
+        <item>ניפגש</item>
+        <item>קבענו</item>
 </string-array>
 
     <string-array name="titles">
@@ -222,5 +225,8 @@
         <item>הזמנה למסעדה</item>
         <item>משחק של אקזיט רום</item>
         <item>הינך מוזמן לאירוע</item>
+        <item>יש לך פגישה</item>
+        <item>יש לך פגישה</item>
+        <item>יש לך פגישה</item>
     </string-array>
 </resources>
