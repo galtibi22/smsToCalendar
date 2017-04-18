@@ -175,6 +175,7 @@
     <string-array name="titles_keys">
         <item>חתונה</item>
         <item>טכנאי</item>
+        <item>דר\'</item>
         <item>ד\"ר</item>
         <item>רופא</item>
         <item>מרפאת</item>
@@ -204,6 +205,7 @@
     <string-array name="titles">
         <item>הנכם מוזמנים לחתונה</item>
         <item>ביקור טכנאי</item>
+        <item>תור לדר</item>
         <item>תור לדר</item>
         <item>תור לרופא</item>
         <item>תור למרפאת</item>

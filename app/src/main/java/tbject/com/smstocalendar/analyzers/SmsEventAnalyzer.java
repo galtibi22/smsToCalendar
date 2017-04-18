@@ -1,16 +1,12 @@
 package tbject.com.smstocalendar.analyzers;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import tbject.com.smstocalendar.R;
 import tbject.com.smstocalendar.pojo.SmsEvent;
@@ -63,7 +59,6 @@ public class SmsEventAnalyzer {
 
     private boolean validateTitle() {
         boolean success=false;
-        findTitleInCustomTitleHistory();
         if (smsEvent.getTitle()==null || smsEvent.getTitle().isEmpty()) {
             List<String> titleKeys = Arrays.asList(context.getResources().getStringArray(R.array.titles_keys));
             List<String> titles = Arrays.asList(context.getResources().getStringArray(R.array.titles));
@@ -71,6 +66,7 @@ public class SmsEventAnalyzer {
                 if (smsEvent.getDescription().contains(titleKeys.get(i))){
                     String title="";
                     String doctor="ד\"ר";
+                    String doctor2="דר\'";
                     String hot="HOT";
                     String yes="YES";
                     String mirpaha="מרפאת";
@@ -78,21 +74,26 @@ public class SmsEventAnalyzer {
                         String doctorName=smsEvent.getDescription().substring(smsEvent.getDescription().indexOf(doctor)+doctor.length());
                         doctorName=doctorName.trim().split("\\s+")[0];
                         title=titles.get(i) +" "+doctorName;
-                    }else if (smsEvent.getDescription().toUpperCase().contains(hot)){
+
+                    }else if (titleKeys.get(i).equals(doctor2)){
+                        String doctorName=smsEvent.getDescription().substring(smsEvent.getDescription().indexOf(doctor2)+doctor2.length());
+                        doctorName=doctorName.trim().split("\\s+")[0];
+                        title=titles.get(i) +" "+doctorName;}
+                    else if (smsEvent.getDescription().toUpperCase().contains(hot)){
                         title=titles.get(i)+" עם "+hot;
                     }else if (smsEvent.getDescription().toUpperCase().contains(yes)){
                         title=titles.get(i)+" עם "+ yes;
                     }else if (smsEvent.getDescription().contains(mirpaha)){
-                        String name=smsEvent.getDescription().substring(smsEvent.getDescription().indexOf(mirpaha)+mirpaha.length());
+                        String name=smsEvent.getDescription().substring(smsEvent.getDescription().indexOf(mirpaha));
                         String []nameArray=name.trim().split("\\s+");
                         LocationService locationService=new LocationService(context);
-                        String location=locationService.validateAddress(nameArray[0]);
-                        if (location!=null || !location.isEmpty())
-                            title=titles.get(i)+" "+ nameArray[0];
+                        String location=locationService.validateAddress(nameArray[0] +nameArray[1]);
+                        if (location!=null && !location.isEmpty())
+                            title=nameArray[0]+" "+nameArray[1];
                         else{
-                            location=locationService.validateAddress(nameArray[0]+" "+nameArray[1]);
-                            if (location!=null || !location.isEmpty()){
-                                title=titles.get(i)+" "+ nameArray[0]+" "+nameArray[1];
+                            location=locationService.validateAddress(nameArray[0]+" "+nameArray[1]+" "+nameArray[2]);
+                            if (location!=null && !location.isEmpty()){
+                                title=nameArray[0]+" "+nameArray[1]+" "+nameArray[2];
                             }else{
                                 title=titles.get(i);
                             }
@@ -113,20 +114,6 @@ public class SmsEventAnalyzer {
         return success;
     }
 
-    private SmsEvent findTitleInCustomTitleHistory() {
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Set<String> privateTitlePatternKeys=new HashSet<>();
-        privateTitlePatternKeys=preferences.getStringSet(smsEvent.getPhoneNumber(),privateTitlePatternKeys);
-        for (String key:privateTitlePatternKeys){
-            if (smsEvent.getDescription().contains(key)){
-                smsEvent.setTitle(preferences.getString(smsEvent.getPhoneNumber()+key,null));
-                Log.i("foundCustomTitle","found custom title="+smsEvent.getAddress()+
-                        "for phoneNumber="+smsEvent.getPhoneNumber());
-                break;
-            }
-        }
-        return smsEvent;
-    }
 
     private boolean valdateAddress() {
         AddressAnalyzer addressAnalyzer=new AddressAnalyzer(context);
