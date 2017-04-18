@@ -76,6 +76,13 @@ public class LocationService  {
         for (String word:wordsOut){
             addrClean=addrClean.replaceAll(word," ");
         }
+        addr = addr.replaceAll("[0-9][0-9][0-9](.)[0-9][0-9][0-9][0-9][0-9][0-9][0-9]", "");
+        addrClean=addrClean.replaceAll("[0-9][0-9][0-9](.)[0-9][0-9][0-9][0-9][0-9][0-9][0-9]", "");
+
+        addr = addr.replaceAll("[0-9][0-9](.)[0-9][0-9][0-9][0-9][0-9][0-9][0-9]", "");
+        addrClean=addrClean.replaceAll("[0-9][0-9](.)[0-9][0-9][0-9][0-9][0-9][0-9][0-9]", "");
+
+
         addr = addr.replaceAll("[0-9][0-9](.)[0-9][0-9](.)[0-9][0-9]", "");
         addrClean=addrClean.replaceAll("[0-9][0-9](.)[0-9][0-9](.)[0-9][0-9]", "");
         addr = addr.replaceAll("[0-9][0-9](.)[0-9][0-9]", "");
@@ -112,7 +119,8 @@ public class LocationService  {
             if (addr==null ||addr.isEmpty())
                 flag=false;
             else if (historyAddresses.get(addr)!=null){
-                    flag=true;
+                flag=true;
+                setGoogleAddres(historyAddresses.get(addr));
             }else {
 
                 addresses=getAddrByWeb(getLocationInfo(addrClean.replaceAll("[-+.^:,]","")));

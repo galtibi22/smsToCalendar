@@ -87,7 +87,7 @@ public class SmsEventAnalyzer {
                         String name=smsEvent.getDescription().substring(smsEvent.getDescription().indexOf(mirpaha));
                         String []nameArray=name.trim().split("\\s+");
                         LocationService locationService=new LocationService(context);
-                        String location=locationService.validateAddress(nameArray[0] +nameArray[1]);
+                        String location=locationService.validateAddress(nameArray[0] +" "+nameArray[1]);
                         if (location!=null && !location.isEmpty())
                             title=nameArray[0]+" "+nameArray[1];
                         else{
