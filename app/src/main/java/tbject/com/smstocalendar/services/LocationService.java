@@ -158,15 +158,14 @@ public class LocationService  {
                 out.append(buffer, 0, rsz);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
-
+        Log.i("httpResponse",out.toString());
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject = new JSONObject(out.toString());
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+           // e.printStackTrace();
         }
 
         return jsonObject;
@@ -195,14 +194,14 @@ public class LocationService  {
                 }
                 catch (JSONException e)
                 {
-                    e.printStackTrace();
+                   // e.printStackTrace();
 
                 }
             }
         }
         catch (Exception e)
         {
-            e.printStackTrace();
+          //  e.printStackTrace();
 
         }
 

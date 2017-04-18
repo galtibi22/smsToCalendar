@@ -11,163 +11,211 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".activities.NewSmsEventManual"
     android:id="@+id/create_new_event">
-
-    <EditText
-        android:id="@+id/in_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Title"
-        android:textColor="@color/cardview_shadow_start_color"
-        android:textSize="16dp"
-        android:layout_below="@+id/event_title"
-        android:layout_alignParentStart="true" />
-
-    <android.support.v7.widget.LinearLayoutCompat
-        android:id="@+id/linearLayoutCompat2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-    </android.support.v7.widget.LinearLayoutCompat>
-
-    <TextView
-        android:id="@+id/in_date"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView8"
-        android:layout_alignParentStart="true"
-        android:inputType="date"
-        android:text="Date"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="16dp" />
-
-    <TextView
-        android:id="@+id/in_time_end"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/in_time_start"
-        android:layout_alignStart="@+id/in_time_start"
-        android:layout_below="@+id/in_time_start"
-        android:layout_marginTop="11dp"
-        android:inputType="time"
-        android:text="Time"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/in_time_start"
-        android:layout_width="80dp"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/place_icon"
-        android:layout_below="@+id/in_title"
-        android:layout_marginEnd="13dp"
-        android:layout_marginTop="12dp"
-        android:layout_toEndOf="@+id/textView6"
-        android:inputType="time"
-        android:text="Time"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp" />
-
     <TextView
         android:id="@+id/main_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:textColor="#000000"
+        android:text="@string/create_new_event_main_title"
+        android:textSize="18dp"
+        android:layout_marginBottom="6dp"
+        />
+    <TextView
+        android:id="@+id/event_counter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/create_new_event_main_title"
-        android:textColor="@color/colorAccent"
-        android:textSize="20dp"
-        android:layout_marginStart="0dp"
-        android:textStyle="bold"
-        android:layout_marginTop="27dp"
-        android:layout_below="@+id/linearLayoutCompat2" />
+        android:layout_alignParentEnd="true"
+        android:text="4/6"
+        android:textColor="@android:color/darker_gray" />
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayout1"
+        android:background="@color/border"
+        android:layout_below="@+id/main_title"
+        android:layout_alignParentStart="true">
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/mainBackground"
+        android:layout_marginTop="3dp">
+        <EditText
+            android:id="@+id/in_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="9dp"
+            android:layout_marginBottom="9dp"
+            android:text="Dentist appointment"
+            android:textColor="@color/text_color"
+            android:textSize="16dp"
+            />
+</LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayout2"
+        android:background="@color/border"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/mainBackground"
+            android:layout_marginTop="3dp">
+        <ImageView
+            android:id="@+id/calendar_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:srcCompat="@drawable/calendar"
+            android:background="@color/mainBackground"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="15dp"
+           />
+        <TextView
+            android:id="@+id/in_date"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:inputType="date"
+            android:text="12/10/2017"
+            android:textColor="@color/text_color"
+            android:background="@color/mainBackground"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="1dp"
+            android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayout3"
+        android:background="@color/border"
+        android:layout_below="@+id/linearLayout2"
+        android:layout_alignParentStart="true">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/mainBackground"
+            android:layout_marginTop="3dp">
+            <ImageView
+                android:id="@+id/clock_icon_start"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="12dp"
+                app:srcCompat="@drawable/clock"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_time"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/in_time_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="time"
+                android:text="14:22"
+                android:textColor="@color/text_color"
+                android:textSize="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="1dp"
+                />
 
-    <ImageView
-        android:id="@+id/calendar_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/calendar"
-        android:layout_alignBottom="@+id/in_date"
-        android:layout_toEndOf="@+id/in_date"
-        android:layout_marginStart="15dp" />
+            <ImageView
+                android:id="@+id/clock_icon_end"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:srcCompat="@drawable/clock"
+                android:layout_marginTop="12dp"
+                android:layout_marginStart="80dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/end_time"
+                android:layout_marginTop="15dp"
+                android:layout_marginStart="15dp"
+                android:textColor="#000000"/>
+            <TextView
+                android:id="@+id/in_time_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:inputType="time"
+                android:text="10:11"
+                android:textColor="@color/text_color"
+                android:textSize="16dp"
+                android:layout_marginStart="1dp"/>
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayout4"
+        android:background="@color/border"
+        android:layout_below="@+id/linearLayout3"
+        android:layout_alignParentStart="true"
+        android:orientation="horizontal">
+    <LinearLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:background="@color/mainBackground"
+        android:layout_marginTop="3dp">
     <ImageView
-        android:id="@+id/clock_icon_end"
+        android:id="@+id/place_icon"
         android:layout_width="25dp"
         android:layout_height="25dp"
-        app:srcCompat="@drawable/clock"
-        android:layout_alignTop="@+id/in_time_end"
-        android:layout_toEndOf="@+id/place_icon" />
-
-    <ImageView
-        android:id="@+id/clock_icon_start"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:layout_alignStart="@+id/clock_icon_end"
-        android:layout_alignTop="@+id/in_time_start"
-        app:srcCompat="@drawable/clock" />
-
+        app:srcCompat="@drawable/place"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        />
     <EditText
         android:id="@+id/in_place"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
         android:inputType="textPostalAddress"
-        android:text="Place"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="16sp"
-        android:layout_below="@+id/in_time_end"
+        android:text="Hapnina 2 Rahana"
+        android:textColor="@color/text_color"
+        android:textSize="16dp"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="18dp"
-        android:layout_toStartOf="@+id/in_time_end"
-        android:layout_alignEnd="@+id/new_event_Cancel" />
-
-    <ImageView
-        android:id="@+id/place_icon"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        app:srcCompat="@drawable/place"
-        android:layout_alignBottom="@+id/in_place"
-        android:layout_alignStart="@+id/new_event_ok" />
-
-    <TextView
-        android:id="@+id/descriptio_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="3dp"
+  />
+        </LinearLayout>
+    </LinearLayout>
+    <LinearLayout android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/linearLayout5"
+        android:background="@color/border"
+        android:layout_below="@+id/linearLayout4"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/in_place"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/orig_message"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="17sp" />
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:background="@color/mainBackground"
+            android:layout_marginTop="3dp">
+            <ImageView
+                android:id="@+id/message_icon"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:srcCompat="@drawable/message"
+                android:layout_marginTop="9dp"
+                android:layout_marginBottom="9dp"
+                />
+            <EditText
+                android:id="@+id/in_message"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:inputType="textMultiLine"
+                android:text="A queue was set for her mother to Dr. Gurevitch on 12/03/17 at 16:10 at the address of the Golani Brigade 8 Kfar Saba Please note that it is possible to summon and cancel an appointment for Dr. Gurevitch on the Maccabi website and the application."
+                android:textColor="@color/text_color"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/event_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/alert_meet_subject"
-        android:textAllCaps="false"
-        android:textColor="@android:color/black"
-        android:textSize="17sp"
-        android:layout_below="@+id/main_title"
-        android:layout_alignParentStart="true" />
-
-    <EditText
-        android:id="@+id/in_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/descriptio_title"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:text="Description"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="16sp" />
 
     <Button
         android:id="@+id/new_event_Cancel"
@@ -176,7 +224,8 @@
         android:layout_height="wrap_content"
         android:text="@string/no"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView8" />
+        android:layout_toStartOf="@+id/new_event_ok"
+        android:layout_marginEnd="27dp" />
 
     <Button
         android:id="@+id/new_event_ok"
@@ -186,31 +235,4 @@
         android:text="@string/yes"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:id="@+id/event_counter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/linearLayoutCompat2"
-        android:text="TextView"
-        android:textColor="@android:color/darker_gray" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/in_time_start"
-        android:layout_toEndOf="@+id/main_title"
-        android:text="@string/start_time" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/textView6"
-        android:layout_alignTop="@+id/in_time_end"
-        android:text="@string/end_time" />
-
-
 </RelativeLayout>

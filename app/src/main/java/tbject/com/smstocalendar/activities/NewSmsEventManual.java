@@ -29,6 +29,7 @@ import android.widget.Toast;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashSet;
 import java.util.Set;
 
 import tbject.com.smstocalendar.DataManager;
@@ -53,7 +54,7 @@ public class NewSmsEventManual extends CommonActivity {
     @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_new_sms_event_manual2);
+            setContentView(R.layout.activity_new_sms_event_manual);
             dataManager=new DataManager(getApplicationContext());
             smsEvents = dataManager.readDataFromDisk(this, SharePrefKeys.EVENT_DATA);
             totleSmsEvemts=smsEvents.size();
@@ -224,17 +225,6 @@ public class NewSmsEventManual extends CommonActivity {
             currentSmsEvent.setDate(dateFormat.parse(txtDate.getText().toString().trim()+" "+txtTimeStart.getText().toString().trim()));
             currentSmsEvent.setDateEnd(dateFormat.parse(txtDate.getText().toString().trim()+" "+txtTimeEnd.getText().toString().trim()));
             currentSmsEvent.setAddress(eventPlace.getText().toString().trim());
-            String newTitle=eventTitle.getText().toString().trim();
-            if (currentSmsEvent.getTitle()!=null && !currentSmsEvent.getTitle().isEmpty() && !newTitle.trim().equals(currentSmsEvent.getTitle().trim())){
-                SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                Set<String> privateTitlePatternKeys=preferences.getStringSet(currentSmsEvent.getPhoneNumber()+"Title",null);
-                privateTitlePatternKeys.add(currentSmsEvent.getAddressPattern());
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putStringSet(currentSmsEvent.getPhoneNumber()+"Title",privateTitlePatternKeys);
-                editor.putString(currentSmsEvent.getPhoneNumber()+currentSmsEvent.getTitle(), newTitle);
-                editor.commit();
-                currentSmsEvent.setTitle(newTitle);
-            }
             currentSmsEvent.setTitle(eventTitle.getText().toString().trim());
             if (currentSmsEvent.getAddress()!=null && !currentSmsEvent.getAddress().isEmpty() &&
                     currentSmsEvent.getAddressPattern()!=null && !currentSmsEvent.getAddressPattern().isEmpty()){
@@ -242,7 +232,8 @@ public class NewSmsEventManual extends CommonActivity {
                     Log.w("addPrivateAddress","found new address="+ currentSmsEvent.getAddress()+" for number="+currentSmsEvent.getPhoneNumber()+" and addressPattern="+currentSmsEvent.getAddressPattern()+
                             ".The address was added to customAdressesHistory");
                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
-                    Set<String> privateAddressPatternKeys=preferences.getStringSet(currentSmsEvent.getPhoneNumber(),null);
+                    Set<String> privateAddressPatternKeys=new HashSet<>();
+                    privateAddressPatternKeys=preferences.getStringSet(currentSmsEvent.getPhoneNumber(),privateAddressPatternKeys);
                     privateAddressPatternKeys.add(currentSmsEvent.getAddressPattern());
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putStringSet(currentSmsEvent.getPhoneNumber(),privateAddressPatternKeys);

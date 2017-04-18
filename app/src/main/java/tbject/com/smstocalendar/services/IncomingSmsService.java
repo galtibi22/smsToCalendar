@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.annotation.RequiresApi;
 import android.telephony.SmsManager;
 import android.telephony.SmsMessage;
@@ -33,6 +34,8 @@ import tbject.com.smstocalendar.pojo.SmsEvent;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public void onReceive(Context context, Intent intent){
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
         DataManager dataManager=new DataManager(context);
         OpeningScreen.setAppLang(context);
         // Retrieves a map of extended data from the intent.

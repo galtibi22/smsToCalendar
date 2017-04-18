@@ -50,7 +50,7 @@ public class AddressAnalyzer {
     private SmsEvent findAddressInCustomAdressesHistory(SmsEvent smsEvent) {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
         Set<String> privateAddressPatternKeys=new HashSet<>();
-       privateAddressPatternKeys=preferences.getStringSet(smsEvent.getPhoneNumber(),privateAddressPatternKeys);
+        privateAddressPatternKeys=preferences.getStringSet(smsEvent.getPhoneNumber(),privateAddressPatternKeys);
         for (String key:privateAddressPatternKeys){
             if (smsEvent.getDescription().contains(key)){
                 smsEvent.setAddressPattern(key);
@@ -176,6 +176,7 @@ public class AddressAnalyzer {
                     smsEvent.setAddressPattern(key);
                 }else{
                     smsEvent.setAddress("אצל " +smsEvent.getPhoneNumber());
+                    smsEvent.setAddressPattern(key);
                 }
 
             }

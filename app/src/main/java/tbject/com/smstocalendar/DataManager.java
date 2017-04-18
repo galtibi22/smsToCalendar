@@ -73,10 +73,11 @@ public class DataManager {
                     smsEvent.setTitle(smsEventArray[0]);
                     smsEvent.setDate(new Date(smsEventArray[1]));
                     smsEvent.setAddress(smsEventArray[2]);
-                    smsEvent.setDescription(smsEventArray[3]);
-                    smsEvent.setPhoneNumber(smsEventArray[4]);
-                    smsEvent.setAccepted(new Date(smsEventArray[5]));
-                    smsEvent.setDateEnd(new Date(smsEventArray[6]));
+                    smsEvent.setAddressPattern(smsEventArray[3]);
+                    smsEvent.setDescription(smsEventArray[4]);
+                    smsEvent.setPhoneNumber(smsEventArray[5]);
+                    smsEvent.setAccepted(new Date(smsEventArray[6]));
+                    smsEvent.setDateEnd(new Date(smsEventArray[7]));
                     smsEvents.add(smsEvent);
                 }
         }
@@ -88,7 +89,7 @@ public class DataManager {
         String smsEventsString="";
         Log.i("writeSmsEventsToDist","Write to disk with header:"+ sharePrefKeys.name()+smsEvents.toString());
         for (SmsEvent smsEvent:smsEvents){
-            smsEventsString+= smsEvent.getTitle()+";;"+smsEvent.getDate().toString()+";;"+smsEvent.getAddress()+";;"+smsEvent.getDescription()+";;"+
+            smsEventsString+= smsEvent.getTitle()+";;"+smsEvent.getDate().toString()+";;"+smsEvent.getAddress()+";;"+smsEvent.getAddressPattern()+";;"+smsEvent.getDescription()+";;"+
                     smsEvent.getPhoneNumber()+";;"+smsEvent.getAccepted().toString()+";;"+smsEvent.getDateEnd().toString()+";;"+"@@";
         }
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
