@@ -112,6 +112,7 @@
         <item>דירתך</item>
         <item>יגיע אליכם</item>
         <item>בביתכם</item>
+        <item>אצלכם</item>
     </string-array>
 <string name="your_home">בבית שלי</string>
     <string name="your_work">בעבודה שלי</string>
